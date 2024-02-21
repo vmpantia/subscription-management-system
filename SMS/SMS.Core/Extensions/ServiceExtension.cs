@@ -8,6 +8,7 @@ namespace SMS.Core.Extensions
         public static void AddCore(this IServiceCollection services)
         {
             services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
     }
 }

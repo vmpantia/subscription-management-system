@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SMS.Core.Models;
+using SMS.Core.Models.ViewModels;
 
 namespace SMS.Core.Queries.Subscription
 {

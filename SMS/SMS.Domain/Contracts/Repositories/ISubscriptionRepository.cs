@@ -6,5 +6,6 @@ namespace SMS.Domain.Contracts.Repositories
     public interface ISubscriptionRepository
     {
         Task<IEnumerable<Subscription>> GetSubscriptionsAsync(Expression<Func<Subscription, bool>> expression);
+        Task<Subscription?> GetSubscriptionAsync(Expression<Func<Subscription, bool>> expression);
     }
 }
