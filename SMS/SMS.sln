@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMS.Infrastructure", "SMS.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.Core", "SMS.Core\SMS.Core.csproj", "{D31F3E15-334B-4FB0-B38B-51754C5B38EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.WebApi", "SMS.WebApi\SMS.WebApi.csproj", "{53ABDD2B-73EA-4C58-9600-0F2D3A1C5F50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D31F3E15-334B-4FB0-B38B-51754C5B38EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D31F3E15-334B-4FB0-B38B-51754C5B38EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D31F3E15-334B-4FB0-B38B-51754C5B38EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53ABDD2B-73EA-4C58-9600-0F2D3A1C5F50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53ABDD2B-73EA-4C58-9600-0F2D3A1C5F50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53ABDD2B-73EA-4C58-9600-0F2D3A1C5F50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53ABDD2B-73EA-4C58-9600-0F2D3A1C5F50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
