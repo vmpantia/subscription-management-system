@@ -39,5 +39,8 @@ namespace SMS.Infrastructure.Database.Repositories
             _table.Update(entity); 
             await _context.SaveChangesAsync();
         }
+
+        public async Task SaveAsync() =>
+            await _context.SaveChangesAsync();
     }
 }
