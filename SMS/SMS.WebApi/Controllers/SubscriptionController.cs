@@ -1,7 +1,7 @@
 using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SMS.Core.Models.ViewModels;
+using SMS.Core.Models.ViewModels.Subscription;
 using SMS.Core.Queries.Subscription;
 using SMS.WebApi.Common;
 

@@ -13,6 +13,7 @@ namespace SMS.Infrastructure.Extensions
         {
             services.AddDbContext<SMSDbContext>(option => option.UseSqlServer(configuration.GetConnectionString("MigrationDb")));
             services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
     }
 }

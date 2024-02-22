@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SMS.Core.Models.ViewModels;
+using SMS.Core.Models.ViewModels.Subscription;
 using SMS.Domain.Models.Entities;
 
 namespace SMS.Core.Mapping

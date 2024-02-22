@@ -1,4 +1,4 @@
-﻿namespace SMS.Core.Models.ViewModels
+﻿namespace SMS.Core.Models.ViewModels.Subscription
 {
     public class SubscriptionViewModel
     {

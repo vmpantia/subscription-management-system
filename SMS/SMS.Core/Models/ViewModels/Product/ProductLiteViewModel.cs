@@ -1,6 +1,6 @@
-﻿namespace SMS.Core.Models.ViewModels
+﻿namespace SMS.Core.Models.ViewModels.Product
 {
-    public class SubscriptionLiteViewModel
+    public class ProductLiteViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
