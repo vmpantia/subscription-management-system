@@ -14,6 +14,14 @@ namespace SMS.WebApi.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAllProductsAsync() =>
-                 await HandleRequestAsync<GetAllProductQuery, IEnumerable<ProductViewModel>>(new GetAllProductQuery());
+            await HandleRequestAsync<GetAllProductsQuery, IEnumerable<ProductViewModel>>(new GetAllProductsQuery());
+
+        [HttpGet("lites")]
+        public async Task<IActionResult> GetAllProductLitesAsync() =>
+            await HandleRequestAsync<GetAllProductLitesQuery, IEnumerable<ProductLiteViewModel>>(new GetAllProductLitesQuery());
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductAsync(Guid id) =>
+            await HandleRequestAsync<GetProductByIdQuery, ProductViewModel>(new GetProductByIdQuery(id));
     }
 }

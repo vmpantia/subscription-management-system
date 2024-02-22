@@ -4,5 +4,5 @@ using SMS.Domain.Results;
 
 namespace SMS.Core.Queries.Product
 {
-    public class GetAllProductQuery : IRequest<Result<IEnumerable<ProductViewModel>>> { }
+    public class GetAllProductLitesQuery : IRequest<Result<IEnumerable<ProductLiteViewModel>>> { }
 }
