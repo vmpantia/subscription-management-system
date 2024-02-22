@@ -27,7 +27,7 @@ namespace SMS.WebApi.Common
 
                 // Check if the response is valid type of Result<TResult>
                 if (!(response is Result<TResult> result))
-                    throw new Exception($"Invalid result for a certain request {nameof(TResult)}.");
+                    throw new Exception("Invalid result for a certain request.");
 
                 return result switch
                 {
