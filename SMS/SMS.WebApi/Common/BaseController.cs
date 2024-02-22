@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SMS.Domain.Models.Enums;
 using SMS.Domain.Results;
+using SMS.Domain.Results.Errors;
 
 namespace SMS.WebApi.Common
 {
@@ -29,14 +31,14 @@ namespace SMS.WebApi.Common
 
                 return result switch
                 {
-                    { IsSuccess: false, Error: { Code: var errorCode } } when errorCode.Contains("NotFound") => NotFound(result),
-                    { IsSuccess: false, Error: var error } => BadRequest(result),
+                    { IsSuccess: false, Error: var error } when error!.Code == ErrorCode.NotFound => NotFound(result),
+                    { IsSuccess: false } => BadRequest(result),
                     _ => Ok(result)
                 };
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(Result<TResult>.Failure(ControllerErrors.Unexpected(ex)));
             }
         }
     }
