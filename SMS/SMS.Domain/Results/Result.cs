@@ -1,24 +1,31 @@
-﻿using SMS.Domain.Results.Errors;
+﻿using SMS.Domain.Models.Enums;
 
 namespace SMS.Domain.Results
 {
     public class Result<TData>
     {
-        private Result(bool isSuccess, Error? error, TData? data)
+        private Result(Success<TData> success)
         {
-            if (isSuccess && error is not null ||
-                !isSuccess && error is null)
-                throw new ArgumentException("Invalid error", nameof(error));
+            IsSuccess = true;
+            Success = success;
+            Error = null;
+        }
 
-            IsSuccess = isSuccess;
+        private Result(Error error)
+        {
+            IsSuccess = false;
+            Success = null;
             Error = error;
-            Data = data;
         }
         
         public bool IsSuccess { get; }
+        public Success<TData>? Success { get; }
         public Error? Error { get; }
-        public TData? Data { get; }
-        public static Result<TData> Success(TData data) => new(true, null, data);
-        public static Result<TData> Failure(Error error) => new(false, error, default);
+
+        public static Result<TData> Done(TData? data, string? message = null) => new(new Success<TData>(data, message));
+        public static Result<TData> Failure(Error error) => new(error);
     }
+
+    public sealed record Success<TData>(TData? Data, string? Message) { }
+    public sealed record Error(ErrorCode Code, string Type, string Description) { }
 }

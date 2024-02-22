@@ -6,6 +6,7 @@ using SMS.Domain.Results.Errors;
 using SMS.Domain.Results;
 using MediatR;
 using SMS.Domain.Models.Enums;
+using SMS.Domain.Models.Entities;
 
 namespace SMS.Core.QueryHandlers
 {
@@ -27,10 +28,10 @@ namespace SMS.Core.QueryHandlers
             var result = await _product.GetProductsFullInfoAsync(data => data.Status != CommonStatus.Deleted);
 
             if (result is null)
-                return Result<IEnumerable<ProductViewModel>>.Failure(ProductErrors.NULL);
+                return Result<IEnumerable<ProductViewModel>>.Failure(CommonErrors.NullValue(nameof(Product)));
 
             var dto = _mapper.Map<IEnumerable<ProductViewModel>>(result);
-            return Result<IEnumerable<ProductViewModel>>.Success(dto);
+            return Result<IEnumerable<ProductViewModel>>.Done(dto);
         }
 
         public async Task<Result<IEnumerable<ProductLiteViewModel>>> Handle(GetAllProductLitesQuery request, CancellationToken cancellationToken)
@@ -38,10 +39,10 @@ namespace SMS.Core.QueryHandlers
             var result = await _product.GetProductsAsync(data => data.Status == CommonStatus.Active);
 
             if (result is null)
-                return Result<IEnumerable<ProductLiteViewModel>>.Failure(ProductErrors.NULL);
+                return Result<IEnumerable<ProductLiteViewModel>>.Failure(CommonErrors.NullValue(nameof(Product)));
 
             var dto = _mapper.Map<IEnumerable<ProductLiteViewModel>>(result);
-            return Result<IEnumerable<ProductLiteViewModel>>.Success(dto);
+            return Result<IEnumerable<ProductLiteViewModel>>.Done(dto);
         }
 
         public async Task<Result<ProductViewModel>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
@@ -50,10 +51,10 @@ namespace SMS.Core.QueryHandlers
                                                                         data.Status == CommonStatus.Deleted);
 
             if (result is null)
-                return Result<ProductViewModel>.Failure(ProductErrors.NULL);
+                return Result<ProductViewModel>.Failure(CommonErrors.NotFound(nameof(Product), request.Id));
 
             var dto = _mapper.Map<ProductViewModel>(result);
-            return Result<ProductViewModel>.Success(dto);
+            return Result<ProductViewModel>.Done(dto);
         }
     }
 }

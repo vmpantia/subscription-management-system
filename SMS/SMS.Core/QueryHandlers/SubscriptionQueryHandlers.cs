@@ -6,6 +6,7 @@ using SMS.Domain.Results.Errors;
 using SMS.Domain.Results;
 using MediatR;
 using SMS.Domain.Models.Enums;
+using SMS.Domain.Models.Entities;
 
 namespace SMS.Core.QueryHandlers
 {
@@ -27,10 +28,10 @@ namespace SMS.Core.QueryHandlers
             var result = await _subscription.GetSubscriptionsAsync(data => data.Status == SubscriptionStatus.Active);
 
             if (result is null)
-                return Result<IEnumerable<SubscriptionLiteViewModel>>.Failure(SubscriptionErros.NULL);
+                return Result<IEnumerable<SubscriptionLiteViewModel>>.Failure(CommonErrors.NullValue(nameof(Subscription)));
 
             var dto = _mapper.Map<IEnumerable<SubscriptionLiteViewModel>>(result);
-            return Result<IEnumerable<SubscriptionLiteViewModel>>.Success(dto);
+            return Result<IEnumerable<SubscriptionLiteViewModel>>.Done(dto);
         }
 
         public async Task<Result<IEnumerable<SubscriptionViewModel>>> Handle(GetAllSubscriptionsQuery request, CancellationToken cancellationToken)
@@ -38,10 +39,10 @@ namespace SMS.Core.QueryHandlers
             var result = await _subscription.GetSubscriptionsFullInfoAsync(data => data.Status != SubscriptionStatus.Deleted);
 
             if (result is null)
-                return Result<IEnumerable<SubscriptionViewModel>>.Failure(SubscriptionErros.NULL);
+                return Result<IEnumerable<SubscriptionViewModel>>.Failure(CommonErrors.NullValue(nameof(Subscription)));
 
             var dto = _mapper.Map<IEnumerable<SubscriptionViewModel>>(result);
-            return Result<IEnumerable<SubscriptionViewModel>>.Success(dto);
+            return Result<IEnumerable<SubscriptionViewModel>>.Done(dto);
         }
 
         public async Task<Result<SubscriptionViewModel>> Handle(GetSubscriptionByIdQuery request, CancellationToken cancellationToken)
@@ -50,10 +51,10 @@ namespace SMS.Core.QueryHandlers
                                                                                   data.Status != SubscriptionStatus.Deleted);
 
             if (result is null)
-                return Result<SubscriptionViewModel>.Failure(SubscriptionErros.NotFound(request.Id));
+                return Result<SubscriptionViewModel>.Failure(CommonErrors.NotFound(nameof(Subscription), request.Id));
 
             var dto = _mapper.Map<SubscriptionViewModel>(result);
-            return Result<SubscriptionViewModel>.Success(dto);
+            return Result<SubscriptionViewModel>.Done(dto);
         }
     }
 }
