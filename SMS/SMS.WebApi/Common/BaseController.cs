@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SMS.Domain.Exceptions;
+using SMS.Domain.Results;
 
 namespace SMS.WebApi.Common
 {
@@ -10,26 +10,29 @@ namespace SMS.WebApi.Common
         public BaseController(IMediator mediator) =>
             _mediator = mediator;
 
-        protected async Task<IActionResult> HandleRequestAsync<TRequest>(TRequest request)
+        protected async Task<IActionResult> HandleRequestAsync<TRequest, TResult>(TRequest request)
+            where TRequest : class
+            where TResult : class
         {
             try
             {
-                // Check if the request if NULL
-                if(request == null)
+                // Check if the request is NULL
+                if (request is null)
                     throw new ArgumentNullException(nameof(request));
 
                 // Process the request using mediator
-                var result = await _mediator.Send(request);
+                var response = await _mediator.Send(request);
 
-                // Check if the result has value 
-                if (result == null)
-                    throw new DataNotFoundException("No result found after processing mediator.");
+                // Check if the response is valid type of Result<TResult>
+                if (!(response is Result<TResult> result))
+                    throw new Exception($"Invalid result for a certain request {nameof(TResult)}.");
 
-                return Ok(result);
-            }
-            catch (DataNotFoundException ex)
-            {
-                return NotFound(ex.Message);
+                return result switch
+                {
+                    { IsSuccess: false, Error: { Code: var errorCode } } when errorCode.Contains("NotFound") => NotFound(result),
+                    { IsSuccess: false, Error: var error } => BadRequest(result),
+                    _ => Ok(result)
+                };
             }
             catch (Exception ex)
             {

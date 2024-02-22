@@ -1,5 +1,7 @@
+using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SMS.Core.Models.ViewModels;
 using SMS.Core.Queries.Subscription;
 using SMS.WebApi.Common;
 
@@ -13,14 +15,14 @@ namespace SMS.WebApi.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAllSubscriptionsAsync() =>
-            await HandleRequestAsync(new GetAllSubscriptionsQuery());
+            await HandleRequestAsync<GetAllSubscriptionsQuery, IEnumerable<SubscriptionViewModel>>(new GetAllSubscriptionsQuery());
 
         [HttpGet("lites")]
         public async Task<IActionResult> GetAllSubscriptionLitesAsync() =>
-            await HandleRequestAsync(new GetAllSubscriptionLitesQuery());
+            await HandleRequestAsync<GetAllSubscriptionLitesQuery, IEnumerable<SubscriptionLiteViewModel>>(new GetAllSubscriptionLitesQuery());
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSubscriptionAsync(Guid id) =>
-            await HandleRequestAsync(new GetSubscriptionByIdQuery(id));
+            await HandleRequestAsync<GetSubscriptionByIdQuery, SubscriptionViewModel>(new GetSubscriptionByIdQuery(id));
     }
 }

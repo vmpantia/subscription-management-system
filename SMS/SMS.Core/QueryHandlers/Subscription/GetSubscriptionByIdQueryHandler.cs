@@ -3,12 +3,13 @@ using MediatR;
 using SMS.Core.Models.ViewModels;
 using SMS.Core.Queries.Subscription;
 using SMS.Domain.Contracts.Repositories;
-using SMS.Domain.Exceptions;
 using SMS.Domain.Models.Enums;
+using SMS.Domain.Results;
+using SMS.Domain.Results.Errors;
 
 namespace SMS.Core.QueryHandlers.Subscription
 {
-    public class GetSubscriptionByIdQueryHandler : IRequestHandler<GetSubscriptionByIdQuery, SubscriptionViewModel>
+    public class GetSubscriptionByIdQueryHandler : IRequestHandler<GetSubscriptionByIdQuery, Result<SubscriptionViewModel>>
     {
         private readonly ISubscriptionRepository _subscription;
         private readonly IMapper _mapper;
@@ -18,15 +19,16 @@ namespace SMS.Core.QueryHandlers.Subscription
             _mapper = mapper;
         }
 
-        public async Task<SubscriptionViewModel> Handle(GetSubscriptionByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<SubscriptionViewModel>> Handle(GetSubscriptionByIdQuery request, CancellationToken cancellationToken)
         {
             var result = await _subscription.GetSubscriptionAsync(data => data.Id == request.Id &&
                                                                           data.Status != SubscriptionStatus.Deleted);
 
             if (result is null)
-                throw new DataNotFoundException($"Subscription with an Id {request.Id} is NOT found on the database.");
+                return Result<SubscriptionViewModel>.Failure(SubscriptionErros.NotFound(request.Id));
 
-            return _mapper.Map<SubscriptionViewModel>(result);
+            var dto = _mapper.Map<SubscriptionViewModel>(result);
+            return Result<SubscriptionViewModel>.Success(dto);
         }
     }
 }
