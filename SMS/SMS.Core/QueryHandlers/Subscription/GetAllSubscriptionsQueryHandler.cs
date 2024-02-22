@@ -21,7 +21,7 @@ namespace SMS.Core.QueryHandlers.Subscription
 
         public async Task<Result<IEnumerable<SubscriptionViewModel>>> Handle(GetAllSubscriptionsQuery request, CancellationToken cancellationToken)
         {
-            var result = await _subscription.GetSubscriptionsAsync(data => data.Status != SubscriptionStatus.Deleted);
+            var result = await _subscription.GetSubscriptionsFullInfoAsync(data => data.Status != SubscriptionStatus.Deleted);
 
             if (result is null)
                 return Result<IEnumerable<SubscriptionViewModel>>.Failure(SubscriptionErros.NULL);

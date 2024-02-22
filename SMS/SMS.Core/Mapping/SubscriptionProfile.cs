@@ -9,7 +9,12 @@ namespace SMS.Core.Mapping
         public SubscriptionProfile()
         {
             CreateMap<Subscription, SubscriptionViewModel>()
-                .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+                .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.Status.ToString()))
+                .ForMember(dst => dst.ProductName, opt => opt.MapFrom(src => src.Product.Name))
+                .ForMember(dst => dst.ProductVendor, opt => opt.MapFrom(src => src.Product.Vendor))
+                .ForMember(dst => dst.ProductManufacturer, opt => opt.MapFrom(src => src.Product.Manufacturer))
+                .ForMember(dst => dst.ProductGroupName, opt => opt.MapFrom(src => src.Product.ProductGroup.Name))
+                .ForMember(dst => dst.ProductTypeName, opt => opt.MapFrom(src => src.Product.ProductGroup.ProductType.Name));
             CreateMap<Subscription, SubscriptionLiteViewModel>();
         }
     }
