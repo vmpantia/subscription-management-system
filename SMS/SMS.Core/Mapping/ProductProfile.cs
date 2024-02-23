@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using SMS.Core.Commands.Product;
+using SMS.Core.Models.Dtos;
 using SMS.Core.Models.ViewModels.Product;
 using SMS.Domain.Models.Entities;
 
@@ -13,6 +15,9 @@ namespace SMS.Core.Mapping
                 .ForMember(dst => dst.ProductGroupName, opt => opt.MapFrom(src => src.ProductGroup.Name))
                 .ForMember(dst => dst.ProductTypeName, opt => opt.MapFrom(src => src.ProductGroup.ProductType.Name));
             CreateMap<Product, ProductLiteViewModel>();
+
+            CreateMap<AddProductCommand, Product>();
+            CreateMap<AddProductDto, AddProductCommand>();
         }
     }
 }

@@ -25,5 +25,13 @@ namespace SMS.Infrastructure.Database.Repositories
 
         public async Task<IEnumerable<Product>> GetProductsAsync(Expression<Func<Product, bool>> expression) =>
             await FindByExpression(expression).ToListAsync();
+
+        public async Task<Product> AddProductAsync(Product product)
+        {
+            await AddAsync(product);
+            await SaveAsync();
+
+            return product;
+        }
     }
 }

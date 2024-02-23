@@ -31,7 +31,7 @@ namespace SMS.Core.QueryHandlers
                 return Result<IEnumerable<ProductViewModel>>.Failure(CommonErrors.NullValue(nameof(Product)));
 
             var dto = _mapper.Map<IEnumerable<ProductViewModel>>(result);
-            return Result<IEnumerable<ProductViewModel>>.Done(dto);
+            return Result<IEnumerable<ProductViewModel>>.Success(dto);
         }
 
         public async Task<Result<IEnumerable<ProductLiteViewModel>>> Handle(GetAllProductLitesQuery request, CancellationToken cancellationToken)
@@ -42,7 +42,7 @@ namespace SMS.Core.QueryHandlers
                 return Result<IEnumerable<ProductLiteViewModel>>.Failure(CommonErrors.NullValue(nameof(Product)));
 
             var dto = _mapper.Map<IEnumerable<ProductLiteViewModel>>(result);
-            return Result<IEnumerable<ProductLiteViewModel>>.Done(dto);
+            return Result<IEnumerable<ProductLiteViewModel>>.Success(dto);
         }
 
         public async Task<Result<ProductViewModel>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ namespace SMS.Core.QueryHandlers
                 return Result<ProductViewModel>.Failure(CommonErrors.NotFound(nameof(Product), request.Id));
 
             var dto = _mapper.Map<ProductViewModel>(result);
-            return Result<ProductViewModel>.Done(dto);
+            return Result<ProductViewModel>.Success(dto);
         }
     }
 }

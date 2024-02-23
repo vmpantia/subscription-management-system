@@ -31,7 +31,7 @@ namespace SMS.Core.QueryHandlers
                 return Result<IEnumerable<SubscriptionLiteViewModel>>.Failure(CommonErrors.NullValue(nameof(Subscription)));
 
             var dto = _mapper.Map<IEnumerable<SubscriptionLiteViewModel>>(result);
-            return Result<IEnumerable<SubscriptionLiteViewModel>>.Done(dto);
+            return Result<IEnumerable<SubscriptionLiteViewModel>>.Success(dto);
         }
 
         public async Task<Result<IEnumerable<SubscriptionViewModel>>> Handle(GetAllSubscriptionsQuery request, CancellationToken cancellationToken)
@@ -42,7 +42,7 @@ namespace SMS.Core.QueryHandlers
                 return Result<IEnumerable<SubscriptionViewModel>>.Failure(CommonErrors.NullValue(nameof(Subscription)));
 
             var dto = _mapper.Map<IEnumerable<SubscriptionViewModel>>(result);
-            return Result<IEnumerable<SubscriptionViewModel>>.Done(dto);
+            return Result<IEnumerable<SubscriptionViewModel>>.Success(dto);
         }
 
         public async Task<Result<SubscriptionViewModel>> Handle(GetSubscriptionByIdQuery request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ namespace SMS.Core.QueryHandlers
                 return Result<SubscriptionViewModel>.Failure(CommonErrors.NotFound(nameof(Subscription), request.Id));
 
             var dto = _mapper.Map<SubscriptionViewModel>(result);
-            return Result<SubscriptionViewModel>.Done(dto);
+            return Result<SubscriptionViewModel>.Success(dto);
         }
     }
 }

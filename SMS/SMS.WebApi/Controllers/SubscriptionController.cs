@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SMS.Core.Models.ViewModels.Subscription;
@@ -10,7 +11,7 @@ namespace SMS.WebApi.Controllers
     [Route("subscriptions")]
     public class SubscriptionController : BaseController
     {
-        public SubscriptionController(IMediator mediator) : base(mediator) { }
+        public SubscriptionController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
 
         [HttpGet]
         public async Task<IActionResult> GetAllSubscriptionsAsync() =>

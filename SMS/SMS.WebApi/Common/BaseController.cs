@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SMS.Domain.Models.Enums;
 using SMS.Domain.Results;
@@ -9,8 +10,12 @@ namespace SMS.WebApi.Common
     public class BaseController : ControllerBase
     {
         protected readonly IMediator _mediator;
-        public BaseController(IMediator mediator) =>
+        protected readonly IMapper _mapper;
+        public BaseController(IMediator mediator, IMapper mapper)
+        {
             _mediator = mediator;
+            _mapper = mapper;
+        }
 
         protected async Task<IActionResult> HandleRequestAsync<TRequest, TResult>(TRequest request)
             where TRequest : class

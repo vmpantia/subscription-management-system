@@ -8,5 +8,6 @@ namespace SMS.Domain.Contracts.Repositories
         Task<Product?> GetProductFullInfoAsync(Expression<Func<Product, bool>> expression);
         Task<IEnumerable<Product>> GetProductsAsync(Expression<Func<Product, bool>> expression);
         Task<IEnumerable<Product>> GetProductsFullInfoAsync(Expression<Func<Product, bool>> expression);
+        Task<Product> AddProductAsync(Product product);
     }
 }
