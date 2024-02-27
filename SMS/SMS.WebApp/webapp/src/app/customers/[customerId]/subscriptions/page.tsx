@@ -1,8 +1,12 @@
+'use client'
+
+import CustomerSubscriptionsTable from '@/components/tables/CustomerSubscriptionsTable'
+import { SubscriptionViewModel } from '@/interfaces/viewmodels/subscription/SubscriptionViewModel'
 import React from 'react'
 
 const page = ({ params }: { params: { customerId: string } }) => {
   return (
-      <div>{params.customerId} Customer Subscriptions Page</div>
+      <CustomerSubscriptionsTable data={[] as SubscriptionViewModel[]} />
   )
 }
 

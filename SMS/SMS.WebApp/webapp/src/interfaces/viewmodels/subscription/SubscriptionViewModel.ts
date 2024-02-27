@@ -1,4 +1,4 @@
-interface SubscriptionViewModel {
+export interface SubscriptionViewModel {
     id:string,
     name:string,
     description?:string | null,
