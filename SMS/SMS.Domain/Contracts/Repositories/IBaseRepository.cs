@@ -8,7 +8,7 @@ namespace SMS.Domain.Contracts.Repositories
         IQueryable<TEntity> FindByExpression(Expression<Func<TEntity, bool>> expression);
         Task<TEntity?> FindByIdAsync(Expression<Func<TEntity, object>> primaryKeySelector);
         Task<TEntity?> FindOneByExpressionAsync(Expression<Func<TEntity, bool>> expression);
-        Task AddAsync(TEntity entity);
+        Task CreateAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
     }
 }

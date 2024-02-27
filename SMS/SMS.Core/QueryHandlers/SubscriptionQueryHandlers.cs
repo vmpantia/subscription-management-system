@@ -28,7 +28,7 @@ namespace SMS.Core.QueryHandlers
             var result = await _subscription.GetSubscriptionsAsync(data => data.Status == SubscriptionStatus.Active);
 
             if (result is null)
-                return Result<IEnumerable<SubscriptionLiteViewModel>>.Failure(CommonErrors.NullValue(nameof(Subscription)));
+                return Result<IEnumerable<SubscriptionLiteViewModel>>.Failure(SubscriptionErrors.NullValue);
 
             var dto = _mapper.Map<IEnumerable<SubscriptionLiteViewModel>>(result);
             return Result<IEnumerable<SubscriptionLiteViewModel>>.Success(dto);
@@ -39,7 +39,7 @@ namespace SMS.Core.QueryHandlers
             var result = await _subscription.GetSubscriptionsFullInfoAsync(data => data.Status != SubscriptionStatus.Deleted);
 
             if (result is null)
-                return Result<IEnumerable<SubscriptionViewModel>>.Failure(CommonErrors.NullValue(nameof(Subscription)));
+                return Result<IEnumerable<SubscriptionViewModel>>.Failure(SubscriptionErrors.NullValue);
 
             var dto = _mapper.Map<IEnumerable<SubscriptionViewModel>>(result);
             return Result<IEnumerable<SubscriptionViewModel>>.Success(dto);
@@ -51,7 +51,7 @@ namespace SMS.Core.QueryHandlers
                                                                                   data.Status != SubscriptionStatus.Deleted);
 
             if (result is null)
-                return Result<SubscriptionViewModel>.Failure(CommonErrors.NotFound(nameof(Subscription), request.Id));
+                return Result<SubscriptionViewModel>.Failure(SubscriptionErrors.NotFound(request.Id));
 
             var dto = _mapper.Map<SubscriptionViewModel>(result);
             return Result<SubscriptionViewModel>.Success(dto);

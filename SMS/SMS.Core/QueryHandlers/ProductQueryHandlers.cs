@@ -28,7 +28,7 @@ namespace SMS.Core.QueryHandlers
             var result = await _product.GetProductsFullInfoAsync(data => data.Status != CommonStatus.Deleted);
 
             if (result is null)
-                return Result<IEnumerable<ProductViewModel>>.Failure(CommonErrors.NullValue(nameof(Product)));
+                return Result<IEnumerable<ProductViewModel>>.Failure(ProductErrors.NullValue);
 
             var dto = _mapper.Map<IEnumerable<ProductViewModel>>(result);
             return Result<IEnumerable<ProductViewModel>>.Success(dto);
@@ -39,7 +39,7 @@ namespace SMS.Core.QueryHandlers
             var result = await _product.GetProductsAsync(data => data.Status == CommonStatus.Active);
 
             if (result is null)
-                return Result<IEnumerable<ProductLiteViewModel>>.Failure(CommonErrors.NullValue(nameof(Product)));
+                return Result<IEnumerable<ProductLiteViewModel>>.Failure(ProductErrors.NullValue);
 
             var dto = _mapper.Map<IEnumerable<ProductLiteViewModel>>(result);
             return Result<IEnumerable<ProductLiteViewModel>>.Success(dto);
@@ -48,10 +48,10 @@ namespace SMS.Core.QueryHandlers
         public async Task<Result<ProductViewModel>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
             var result = await _product.GetProductFullInfoAsync(data => data.Id == request.Id && 
-                                                                        data.Status == CommonStatus.Deleted);
+                                                                        data.Status != CommonStatus.Deleted);
 
             if (result is null)
-                return Result<ProductViewModel>.Failure(CommonErrors.NotFound(nameof(Product), request.Id));
+                return Result<ProductViewModel>.Failure(ProductErrors.NotFound(request.Id));
 
             var dto = _mapper.Map<ProductViewModel>(result);
             return Result<ProductViewModel>.Success(dto);

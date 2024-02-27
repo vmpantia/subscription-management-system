@@ -26,9 +26,20 @@ namespace SMS.Infrastructure.Database.Repositories
         public async Task<IEnumerable<Product>> GetProductsAsync(Expression<Func<Product, bool>> expression) =>
             await FindByExpression(expression).ToListAsync();
 
-        public async Task<Product> AddProductAsync(Product product)
+        public async Task<Product?> GetProductAsync(Expression<Func<Product, bool>> expression) =>
+            await FindOneByExpressionAsync(expression);
+
+        public async Task<Product> CreateProductAsync(Product product)
         {
-            await AddAsync(product);
+            await CreateAsync(product);
+            await SaveAsync();
+
+            return product;
+        }
+
+        public async Task<Product> UpdateProductAsync(Product product)
+        {
+            await UpdateAsync(product);
             await SaveAsync();
 
             return product;

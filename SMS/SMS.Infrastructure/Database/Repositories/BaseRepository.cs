@@ -28,7 +28,7 @@ namespace SMS.Infrastructure.Database.Repositories
         public async Task<TEntity?> FindOneByExpressionAsync(Expression<Func<TEntity, bool>> expression) =>
             await _table.FirstOrDefaultAsync(expression);
 
-        public async Task AddAsync(TEntity entity)
+        public async Task CreateAsync(TEntity entity)
         {
             await _table.AddAsync(entity);
             await _context.SaveChangesAsync();

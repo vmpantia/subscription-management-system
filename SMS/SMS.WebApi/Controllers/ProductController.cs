@@ -23,15 +23,20 @@ namespace SMS.WebApi.Controllers
         public async Task<IActionResult> GetAllProductLitesAsync() =>
             await HandleRequestAsync<GetAllProductLitesQuery, IEnumerable<ProductLiteViewModel>>(new GetAllProductLitesQuery());
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetProductAsync(Guid id) =>
-            await HandleRequestAsync<GetProductByIdQuery, ProductViewModel>(new GetProductByIdQuery(id));
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetProductAsync(Guid productId) =>
+            await HandleRequestAsync<GetProductByIdQuery, ProductViewModel>(new GetProductByIdQuery(productId));
 
         [HttpPost]
-        public async Task<IActionResult> CreateProductAsync([FromForm] AddProductDto request)
-        {
-            var command = _mapper.Map<AddProductCommand>(request);
-            return await HandleRequestAsync<AddProductCommand, string>(command);
-        }
+        public async Task<IActionResult> CreateProductAsync([FromForm] AddProductDto request) =>
+            await HandleRequestAsync<CreateProductCommand, string>(new CreateProductCommand(request, string.Empty));
+
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> UpdateProductAsync(Guid productId, [FromForm] UpdateProductDto request) =>
+            await HandleRequestAsync<UpdateProductCommand, string>(new UpdateProductCommand(productId, request, string.Empty));
+
+        [HttpPatch("{productId}")]
+        public async Task<IActionResult> UpdateProductStatusAsync(Guid productId, [FromForm] UpdateProductStatusDto request) =>
+            await HandleRequestAsync<UpdateProductStatusCommand, string>(new UpdateProductStatusCommand(productId, request, string.Empty));
     }
 }
