@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SMS.Core.Commands.Product;
-using SMS.Core.Models.Dtos;
+using SMS.Core.Models.Dtos.Product;
 using SMS.Core.Models.ViewModels.Product;
 using SMS.Core.Queries.Product;
 using SMS.WebApi.Common;
@@ -28,7 +28,7 @@ namespace SMS.WebApi.Controllers
             await HandleRequestAsync<GetProductByIdQuery, ProductViewModel>(new GetProductByIdQuery(productId));
 
         [HttpPost]
-        public async Task<IActionResult> CreateProductAsync([FromForm] AddProductDto request) =>
+        public async Task<IActionResult> CreateProductAsync([FromForm] CreateProductDto request) =>
             await HandleRequestAsync<CreateProductCommand, string>(new CreateProductCommand(request, string.Empty));
 
         [HttpPut("{productId}")]

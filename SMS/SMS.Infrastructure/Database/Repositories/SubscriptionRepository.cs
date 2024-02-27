@@ -26,5 +26,24 @@ namespace SMS.Infrastructure.Database.Repositories
 
         public async Task<IEnumerable<Subscription>> GetSubscriptionsAsync(Expression<Func<Subscription, bool>> expression) =>
             await FindByExpression(expression).ToListAsync();
+
+        public async Task<Subscription?> GetSubscriptionAsync(Expression<Func<Subscription, bool>> expression) =>
+            await FindOneByExpressionAsync(expression);
+
+        public async Task<Subscription> CreateSubscriptionAsync(Subscription subscription)
+        {
+            await CreateAsync(subscription);
+            await SaveAsync();
+
+            return subscription;
+        }
+
+        public async Task<Subscription> UpdateSubscriptionAsync(Subscription subscription)
+        {
+            await UpdateAsync(subscription);
+            await SaveAsync();
+
+            return subscription;
+        }
     }
 }

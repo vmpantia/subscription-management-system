@@ -10,6 +10,12 @@ namespace SMS.Infrastructure.Database.Repositories
     {
         public ProductRepository(SMSDbContext context) : base(context) { }
 
+        public async Task<bool> IsExistAsync(Expression<Func<Product, bool>> expression)
+        {
+            var result = await FindOneByExpressionAsync(expression);
+            return result is not null;
+        }
+
         public async Task<IEnumerable<Product>> GetProductsFullInfoAsync(Expression<Func<Product, bool>> expression) =>
             await FindByExpression(expression)
                     .Include(tbl => tbl.ProductGroup)

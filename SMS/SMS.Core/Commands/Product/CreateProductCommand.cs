@@ -1,12 +1,12 @@
 ﻿using MediatR;
-using SMS.Core.Models.Dtos;
+using SMS.Core.Models.Dtos.Product;
 using SMS.Domain.Results;
 
 namespace SMS.Core.Commands.Product
 {
     public class CreateProductCommand : IRequest<Result<string>>
     {
-        public CreateProductCommand(AddProductDto request, string requestor)
+        public CreateProductCommand(CreateProductDto request, string requestor)
         {
             ProductGroupId = request.ProductGroupId;
             Name = request.Name;

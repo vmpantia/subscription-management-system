@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore.Query;
 using SMS.Core.Commands.Product;
 using SMS.Domain.Contracts.Repositories;
 using SMS.Domain.Models.Entities;
@@ -26,7 +27,7 @@ namespace SMS.Core.CommandHandlers
 
         public async Task<Result<string>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            // Convert request to product entity
+            // Convert request to product
             var newProduct = _mapper.Map<Product>(request);
 
             // Check if the newProduct is NULL
@@ -45,7 +46,7 @@ namespace SMS.Core.CommandHandlers
             // Create & save new product
             var result = await _product.CreateProductAsync(newProduct);
 
-            return Result<string>.Success($"Product added successfully. {result.Id}");
+            return Result<string>.Success($"Product created successfully. {result.Id}");
         }
 
         public async Task<Result<string>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -94,7 +95,7 @@ namespace SMS.Core.CommandHandlers
             currentProduct.UpdatedAt = DateTime.Now;
             currentProduct.UpdatedBy = request.Requestor;
 
-            // Edit & save new product
+            // Edit & save product
             var result = await _product.UpdateProductAsync(currentProduct);
 
             return Result<string>.Success($"Product status updated successfully. {request.ProductId}");

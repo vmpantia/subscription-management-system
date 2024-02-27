@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SMS.Core.Models.Dtos
+namespace SMS.Core.Models.Dtos.Product
 {
-    public class AddProductDto
+    public class CreateProductDto
     {
         [Required]
         public Guid ProductGroupId { get; set; }

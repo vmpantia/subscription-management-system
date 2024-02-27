@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SMS.Core.Models.Dtos;
+using SMS.Core.Models.Dtos.Product;
 using SMS.Domain.Results;
 
 namespace SMS.Core.Commands.Product

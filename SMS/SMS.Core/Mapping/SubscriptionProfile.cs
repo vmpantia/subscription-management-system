@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SMS.Core.Commands.Subscription;
 using SMS.Core.Models.ViewModels.Subscription;
 using SMS.Domain.Models.Entities;
 
@@ -16,6 +17,7 @@ namespace SMS.Core.Mapping
                 .ForMember(dst => dst.ProductGroupName, opt => opt.MapFrom(src => src.Product.ProductGroup.Name))
                 .ForMember(dst => dst.ProductTypeName, opt => opt.MapFrom(src => src.Product.ProductGroup.ProductType.Name));
             CreateMap<Subscription, SubscriptionLiteViewModel>();
+            CreateMap<CreateSubscriptionCommand, Subscription>();
         }
     }
 }
