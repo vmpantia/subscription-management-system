@@ -8,9 +8,9 @@ export interface ProductViewModel {
     vendorContractTerm:string,
     manufacturer:string,
     status:string,
-    createdAt:Date,
+    createdAt:string | Date,
     createdBy:string,
-    updatedAt?:Date | null,
+    updatedAt?:string | Date | null,
     updatedBy:string,
 
     productGroupId:string,
