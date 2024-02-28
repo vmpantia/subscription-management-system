@@ -14,5 +14,8 @@ namespace SMS.Infrastructure.Database.Repositories
             var result = await FindOneByExpressionAsync(expression);
             return result is not null;
         }
+
+        public async Task<Customer?> GetCustomerAsync(Expression<Func<Customer, bool>> expression) =>
+            await FindOneByExpressionAsync(expression);
     }
 }

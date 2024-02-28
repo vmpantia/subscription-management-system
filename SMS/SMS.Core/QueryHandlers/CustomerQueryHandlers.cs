@@ -10,7 +10,8 @@ using SMS.Core.Models.ViewModels.Customer;
 namespace SMS.Core.QueryHandlers
 {
     public class CustomerQueryHandlers : 
-        IRequestHandler<GetCustomerSubscriptionsQuery, Result<IEnumerable<CustomerSubscriptionViewModel>>>
+        IRequestHandler<GetCustomerSubscriptionsByIdQuery, Result<IEnumerable<CustomerSubscriptionViewModel>>>,
+        IRequestHandler<GetCustomerNameByIdQuery, Result<string>>
     {
         private readonly ICustomerRepository _customer;
         private readonly ISubscriptionRepository _subscription;
@@ -22,11 +23,11 @@ namespace SMS.Core.QueryHandlers
             _mapper = mapper;
         }
 
-        public async Task<Result<IEnumerable<CustomerSubscriptionViewModel>>> Handle(GetCustomerSubscriptionsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<CustomerSubscriptionViewModel>>> Handle(GetCustomerSubscriptionsByIdQuery request, CancellationToken cancellationToken)
         {
             // Check if the customer exist in the database
             if(!await _customer.IsExistAsync(data => data.Id == request.CustomerId &&
-                                                    data.Status == CommonStatus.Active))
+                                                     data.Status == CommonStatus.Active))
                 return Result<IEnumerable<CustomerSubscriptionViewModel>>.Failure(CustomerErrors.NotFound(request.CustomerId));
 
             // Get customer subscriptions in the database
@@ -40,6 +41,19 @@ namespace SMS.Core.QueryHandlers
             // Convert result to view model
             var data = _mapper.Map<IEnumerable<CustomerSubscriptionViewModel>>(result);
             return Result<IEnumerable<CustomerSubscriptionViewModel>>.Success(data);
+        }
+
+        public async Task<Result<string>> Handle(GetCustomerNameByIdQuery request, CancellationToken cancellationToken)
+        {
+            // Check if the customer exist in the database
+            var result = await _customer.GetCustomerAsync(data => data.Id == request.CustomerId &&
+                                                                  data.Status == CommonStatus.Active);
+
+            // Check if customer or result is NULL
+            if (result is null)  
+                return Result<string>.Failure(CustomerErrors.NotFound(request.CustomerId));
+
+            return Result<string>.Success($"{result.Name} ({result.ShortName})");
         }
     }
 }

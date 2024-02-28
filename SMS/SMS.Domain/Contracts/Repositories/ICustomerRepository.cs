@@ -6,5 +6,6 @@ namespace SMS.Domain.Contracts.Repositories
     public interface ICustomerRepository
     {
         Task<bool> IsExistAsync(Expression<Func<Customer, bool>> expression);
+        Task<Customer?> GetCustomerAsync(Expression<Func<Customer, bool>> expression);
     }
 }

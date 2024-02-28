@@ -1,5 +1,5 @@
 'use client'
-import { getCustomerSubscriptions } from '@/api/CustomerApis'
+import { getCustomerName, getCustomerSubscriptions } from '@/api/CustomerApis'
 import CustomBreadcrumbs from '@/components/CustomBreadcrumbs'
 import CustomCardCounts from '@/components/CustomCardCounts'
 import CustomTable from '@/components/tables/common/CustomTable'
@@ -11,10 +11,17 @@ import { SubscriptionViewModel } from '@/interfaces/viewmodels/subscription/Subs
 import React, { useEffect, useState } from 'react'
 
 const page = ({ params }: { params: { customerId: string } }) => {
+
+  // Hooks
+  const [subscriptions, setSubscriptions] = useState<SubscriptionViewModel[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [customerName, setCustomerName] = useState<string>('-');
+
+  // Component Configurations
   const breadCrumbsConfig : CustomBreadcrumbsPage[] = [
     { link: 'http://localhost:3000/', name: 'Home' },
     { link: 'http://localhost:3000/customers', name: 'Customer' },
-    { link: `http://localhost:3000/customers/${params.customerId}`, name: params.customerId },
+    { link: `http://localhost:3000/customers/${params.customerId}`, name: customerName },
     { link: null, name: 'Subscriptions' },
   ] 
   const cardsConfig : CustomCardCount[] = [
@@ -23,10 +30,20 @@ const page = ({ params }: { params: { customerId: string } }) => {
     { title: 'No. of Deleted Status', count: 5 },
   ]
 
-  const [subscriptions, setSubscriptions] = useState<SubscriptionViewModel[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const fetchSubscriptions = () => {
+  // Functions
+  const fetchCustomerName = () => {
+    getCustomerName(params.customerId)
+      .then((res:Result<string>) => {
+        if(res.isSuccess)
+          setCustomerName(res.data!);
+        else
+          console.log(`${res.error!.code} | ${res.error!.type} | ${res.error!.description}`);
+      })
+      .catch((err:any) => {
+        console.log(err);
+      });
+  }
+  const fetchCustomerSubscriptions = () => {
     setIsLoading(true);
     getCustomerSubscriptions(params.customerId)
       .then((res:Result<SubscriptionViewModel[]>) => {
@@ -37,14 +54,14 @@ const page = ({ params }: { params: { customerId: string } }) => {
       })
       .catch((err:any) => {
         console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
   }
   
   useEffect(() => {
-    fetchSubscriptions();
+    setIsLoading(true);
+    fetchCustomerSubscriptions();
+    fetchCustomerName();
+    setIsLoading(false);
   }, [])
 
   return (
