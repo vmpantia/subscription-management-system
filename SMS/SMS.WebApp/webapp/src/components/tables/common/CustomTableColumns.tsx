@@ -28,11 +28,12 @@ const dateColumnWithDueInDay = (header:string, key:string, colWidth:number = 150
         id: key,
         header: header,
         size: colWidth,
-        accessorFn: (row:any) => {
-            let value = row[key];
-            let dateValue = moment(value);
-            let dateToday = moment().startOf('date');
-            let dayDiff = dateValue.diff(dateToday, 'days');
+        enableFilter: true,
+        accessorFn: (originalRow:any) => {
+            const value = originalRow[key];
+            const dateValue = moment(value);
+            const dateToday = moment().startOf('date');
+            const dayDiff = dateValue.diff(dateToday, 'days');
 
             // Check if the values are valid
             if(dateToday == undefined || dateValue == undefined || value == "0001-01-01T00:00:00") 
@@ -52,9 +53,9 @@ const dateColumnWithDueInDay = (header:string, key:string, colWidth:number = 150
                         <div className="w-full text-md font-bold">
                             {dateValue.format("YYYY-MM-DD")}
                         </div>
-                        <div className="w-full font-bold text-red-700">
+                        <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/10">
                             Due Today
-                        </div>
+                        </span>
                     </>
                 );
             
@@ -65,11 +66,19 @@ const dateColumnWithDueInDay = (header:string, key:string, colWidth:number = 150
                         <div className="w-full text-md font-bold">
                             {dateValue.format("YYYY-MM-DD")}
                         </div>
-                        <div className="w-full font-bold text-green-700">
+                        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20">
                             in {dayDiff} day(s)
-                        </div>
+                        </span>
                     </>
                 );
+        },
+        sortingFn: (rowA:any, rowB:any) => {
+            const dateA = rowA.original[key];
+            const dateB = rowB.original[key];
+            return dateA < dateB ?  1 : dateA > dateB ? -1 : 0;
+        },
+        filterFn: (row:any, id:any, filterValue:any) => {
+            return row.original[key].toLowerCase().includes(filterValue.toLowerCase())
         }
     }
 }
@@ -80,12 +89,25 @@ const currencyColumn = (header:string, key:string, currency:string = "PHP", colW
         header: header,
         size: colWidth,
         accessorFn: (row:any) => {
-            let value = row[key];
+            let value = row[key].toLocaleString('en-US', { style: 'currency', currency: currency });;
             return (
-                <div className="text-md font-bold">
-                    <label>{`${currency} ${value}`}</label>
-                </div>
+                <>
+                    <div className="w-full text-md font-bold pb-1">
+                        {value}
+                    </div>
+                    <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-bold text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                        {currency}
+                    </span>
+                </>
             )
+        },
+        sortingFn: (rowA:any, rowB:any) => {
+            const dateA = rowA.original[key];
+            const dateB = rowB.original[key];
+            return dateA < dateB ?  1 : dateA > dateB ? -1 : 0;
+        },
+        filterFn: (row:any, id:any, filterValue:any) => {
+            return row.original[key] == filterValue;
         }
     }
 }
@@ -100,6 +122,14 @@ const quantityColumn = (header:string, key:string, colWidth:number = 150) => {
             return (
                 <label>{value} <i>pc(s)</i></label>
             )
+        },
+        sortingFn: (rowA:any, rowB:any) => {
+            const dateA = rowA.original[key];
+            const dateB = rowB.original[key];
+            return dateA < dateB ?  1 : dateA > dateB ? -1 : 0;
+        },
+        filterFn: (row:any, id:any, filterValue:any) => {
+            return row.original[key] == filterValue;
         }
     }
 }
@@ -112,5 +142,5 @@ export const CustomerSubscriptionsTableColumn : MRT_ColumnDef<SubscriptionViewMo
     defaultColumn('Subscription Cycle', 'subscriptionCycle') as MRT_ColumnDef<SubscriptionViewModel>,
     defaultColumn('Payment Cycle', 'paymentCycle') as MRT_ColumnDef<SubscriptionViewModel>,
     currencyColumn('Unit Price ₱', 'unitPrice') as MRT_ColumnDef<SubscriptionViewModel>,
-    defaultColumn('Total ₱', 'total') as MRT_ColumnDef<SubscriptionViewModel>
+    currencyColumn('Total ₱', 'total') as MRT_ColumnDef<SubscriptionViewModel>
 ]

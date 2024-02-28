@@ -18,6 +18,8 @@ const CustomTable = ({  data,
         enableTopToolbar: enableTopToolbar,
         enableBottomToolbar: enableBottomToolbar,
         enableColumnOrdering: enableColumnOrdering,
+        enableColumnFilters: true,
+        enableGlobalFilter: false,
         state: {
             isLoading: isLoading,
             columnPinning: {

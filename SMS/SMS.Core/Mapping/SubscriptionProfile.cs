@@ -10,6 +10,7 @@ namespace SMS.Core.Mapping
         public SubscriptionProfile()
         {
             CreateMap<Subscription, SubscriptionViewModel>()
+                .ForMember(dst => dst.Total, opt => opt.MapFrom(src => src.Quantity * src.UnitPrice))
                 .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.Status.ToString()))
                 .ForMember(dst => dst.ProductName, opt => opt.MapFrom(src => src.Product.Name))
                 .ForMember(dst => dst.ProductVendor, opt => opt.MapFrom(src => src.Product.Vendor))

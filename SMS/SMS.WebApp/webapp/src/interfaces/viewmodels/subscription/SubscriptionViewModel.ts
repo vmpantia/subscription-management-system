@@ -4,6 +4,7 @@ export interface SubscriptionViewModel {
     description?:string | null,
     quantity:number,
     unitPrice:number,
+    total:number,
     anniversaryDate:string | Date,
     servicePeriodStartAt:string | Date,
     servicePeriodEndAt:string | Date,
