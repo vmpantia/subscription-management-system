@@ -1,8 +1,8 @@
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table'
 import React from 'react'
-import { BASE_COLORS } from '@/styles/themes/Constant'
 
-const CustomTable = ({  data, 
+const CustomTable = ({  name,   
+                        data, 
                         columns, 
                         isLoading, 
                         enableRowSelection, 
@@ -50,7 +50,13 @@ const CustomTable = ({  data,
     });
 
     return (
-        <MaterialReactTable table={table}/>
+        
+        <>
+            <div className='py-5 text-xl font-bold text-slate-700'>
+                {name}
+            </div>
+            <MaterialReactTable table={table}/>
+        </>
     )
 }
 

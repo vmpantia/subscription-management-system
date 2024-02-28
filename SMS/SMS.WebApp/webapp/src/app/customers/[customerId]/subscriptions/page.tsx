@@ -44,12 +44,8 @@ const page = ({ params }: { params: { customerId: string } }) => {
   return (
     <div className='p-10'>
       <CustomBreadcrumbs pages={breadCrumbsConfig} />
-
-      <div className='py-5 text-xl font-bold text-slate-700'>
-          <label>Subscriptions</label>
-      </div>
-
-      <CustomTable data={subscriptions}
+      <CustomTable name='Subscriptions'
+                   data={subscriptions}
                    columns={CustomerSubscriptionsTableColumn}
                    isLoading={isLoading}
                    enableRowSelection={true}/>
