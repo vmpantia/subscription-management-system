@@ -11,8 +11,8 @@ const CustomerSubscriptionsTable : React.FC<CustomerSubscriptionsTableProps> = (
             </div>
             <CustomTable data={data}
                          columns={CustomerSubscriptionsTableColumn}
-                         enableSelection={true}
-                         isLoading={isLoading}/>
+                         isLoading={isLoading}
+                         enableRowSelection={true}/>
         </div>
     )
 }

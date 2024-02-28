@@ -1,34 +1,39 @@
 'use client'
-
+import { getSubscriptions } from '@/api/SubscriptionApis'
 import CustomerSubscriptionsTable from '@/components/tables/CustomerSubscriptionsTable'
+import { Result } from '@/interfaces/common/Result'
 import { SubscriptionViewModel } from '@/interfaces/viewmodels/subscription/SubscriptionViewModel'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const page = ({ params }: { params: { customerId: string } }) => {
+  const [subscriptions, setSubscriptions] = useState<SubscriptionViewModel[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const subscriptions = [
-    { name: 'takte', productName: 'takteqweqweqweqweqweqweqwe', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takteqweqweqweqweqweqweqwe', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takteqweqweqweqweqweqweqwe', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takteqweqweqweqweqweqweqwe', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-    { name: 'takte', productName: 'takte', anniversaryDate: '2023-02-27',  servicePeriodStartAt: '2023-02-27', servicePeriodEndAt: '2023-02-27', activationDate: '2023-02-27', isAutomaticRenewal: true, paymentCycle: 'Yearly', subscriptionCycle: 'Monthly'},
-  ] as SubscriptionViewModel[]
+  useEffect(() => {
+    const fetchSubscriptions = () => {
+      setIsLoading(true);
+      getSubscriptions()
+        .then((res:Result<SubscriptionViewModel[]>) => {
+          console.log(res);
+          if(res.isSuccess)
+            setSubscriptions(res.data!);
+          else
+            console.log(`${res.error!.code} | ${res.error!.type} | ${res.error!.description}`);
+        })
+        .catch((err:any) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+    fetchSubscriptions();
+  }, [])
 
   return (
       <CustomerSubscriptionsTable 
             data={subscriptions}
-            isLoading={false} />
+            isLoading={isLoading} />
   )
 }
 

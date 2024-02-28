@@ -7,7 +7,7 @@
         public string? Description { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
-        public DateTime AnnivesaryDate { get; set; }
+        public DateTime AnniversaryDate { get; set; }
         public DateTime ServicePeriodStartAt { get; set; }
         public DateTime ServicePeriodEndAt { get; set; }
         public DateTime ActivationDate { get; set; }

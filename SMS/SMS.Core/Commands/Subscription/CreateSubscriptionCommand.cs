@@ -13,7 +13,7 @@ namespace SMS.Core.Commands.Subscription
             Description = request.Description;
             Quantity = request.Quantity;
             UnitPrice = request.UnitPrice;
-            AnnivesaryDate = request.AnnivesaryDate;
+            AnniversaryDate = request.AnniversaryDate;
             ServicePeriodStartAt = request.ServicePeriodStartAt;
             ServicePeriodEndAt = request.ServicePeriodEndAt;
             ActivationDate = request.ActivationDate;
@@ -28,7 +28,7 @@ namespace SMS.Core.Commands.Subscription
         public string? Description { get; init; }
         public int Quantity { get; init; }
         public decimal UnitPrice { get; init; }
-        public DateTime AnnivesaryDate { get; init; }
+        public DateTime AnniversaryDate { get; init; }
         public DateTime ServicePeriodStartAt { get; init; }
         public DateTime ServicePeriodEndAt { get; init; }
         public DateTime ActivationDate { get; init; }

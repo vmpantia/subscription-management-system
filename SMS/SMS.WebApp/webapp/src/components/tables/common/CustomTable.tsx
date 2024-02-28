@@ -2,14 +2,28 @@ import { MaterialReactTable, useMaterialReactTable } from 'material-react-table'
 import React from 'react'
 import { BASE_COLORS } from '@/styles/themes/Constant'
 
-const CustomTable = ({data, columns, enableSelection, isLoading}: any) => {
+const CustomTable = ({  data, 
+                        columns, 
+                        isLoading, 
+                        enableRowSelection, 
+                        enableTopToolbar = true, 
+                        enableBottomToolbar = true,
+                        enableColumnOrdering = true,
+                    }: any) => {
     const table = useMaterialReactTable({
         columns,
-        data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
-        enableSelectAll: enableSelection,
-        enableRowSelection: enableSelection,
+        data, 
+        enableSelectAll: enableRowSelection,
+        enableRowSelection: enableRowSelection,
+        enableTopToolbar: enableTopToolbar,
+        enableBottomToolbar: enableBottomToolbar,
+        enableColumnOrdering: enableColumnOrdering,
         state: {
-            isLoading: isLoading
+            isLoading: isLoading,
+            columnPinning: {
+                left: ['mrt-row-expand', 'mrt-row-select'],
+                right: ['mrt-row-actions'],
+            },
         },
         muiTableBodyProps:{
             sx: {
@@ -17,7 +31,6 @@ const CustomTable = ({data, columns, enableSelection, isLoading}: any) => {
                     whiteSpace: "pre-wrap",
                     lineHeight: "25px",
                     borderBottom: `1px dashed ${BASE_COLORS.lightgrey}`,
-                    color: BASE_COLORS.darkgrey,
                 },
             },
         },

@@ -18,7 +18,7 @@ namespace SMS.Domain.Models.Entities
         [Required]
         public decimal UnitPrice { get; set; }
         [Required]
-        public DateTime AnnivesaryDate { get; set; }
+        public DateTime AnniversaryDate { get; set; }
         [Required]
         public DateTime ServicePeriodStartAt { get; set; }
         [Required]

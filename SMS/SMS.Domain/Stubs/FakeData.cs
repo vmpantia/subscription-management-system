@@ -50,7 +50,7 @@ namespace SMS.Domain.Stubs
                 .RuleFor(prop => prop.Description, faker => faker.Company.Ein())
                 .RuleFor(prop => prop.Quantity, faker => faker.Random.Int())
                 .RuleFor(prop => prop.UnitPrice, faker => faker.Random.Decimal())
-                .RuleFor(prop => prop.AnnivesaryDate, faker => faker.Date.Future())
+                .RuleFor(prop => prop.AnniversaryDate, faker => faker.Date.Future())
                 .RuleFor(prop => prop.ServicePeriodStartAt, faker => faker.Date.Past())
                 .RuleFor(prop => prop.ServicePeriodEndAt, faker => faker.Date.Future())
                 .RuleFor(prop => prop.ActivationDate, faker => faker.Date.Past())

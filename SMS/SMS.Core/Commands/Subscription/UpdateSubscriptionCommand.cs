@@ -15,7 +15,7 @@ namespace SMS.Core.Commands.Subscription
             Description = request.Description;
             Quantity = request.Quantity;
             UnitPrice = request.UnitPrice;
-            AnnivesaryDate = request.AnnivesaryDate;
+            AnniversaryDate = request.AnniversaryDate;
             ServicePeriodStartAt = request.ServicePeriodStartAt;
             ServicePeriodEndAt = request.ServicePeriodEndAt;
             ActivationDate = request.ActivationDate;
