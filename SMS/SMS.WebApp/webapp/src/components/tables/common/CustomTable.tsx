@@ -32,14 +32,15 @@ const CustomTable = ({  data,
                 '& .MuiTableCell-sizeMedium': {
                     whiteSpace: "pre-wrap",
                     lineHeight: "25px",
-                    borderBottom: `1px dashed ${BASE_COLORS.lightgrey}`,
+                    borderBottom: `1px dashed rgb(148 163 184)`,
+                    color: 'rgb(51 65 85)',
                 },
             },
         },
         muiTableHeadCellProps:{
             sx: {
-                background: BASE_COLORS.pink,
-                color: BASE_COLORS.white,
+                background: 'rgb(51 65 85)',
+                color: 'rgb(255 255 255)',
                 // whiteSpace: "pre-wrap",
                 '& .Mui-TableHeadCell-Content': {
                     justifyContent: 'left',

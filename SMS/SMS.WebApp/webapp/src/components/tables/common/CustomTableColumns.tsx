@@ -95,7 +95,7 @@ const currencyColumn = (header:string, key:string, currency:string = "PHP", colW
                     <div className="w-full text-md font-bold pb-1">
                         {value}
                     </div>
-                    <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-bold text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                    <span className="inline-flex items-center rounded-md bg-slate-50 px-2 py-1 text-xs font-bold text-slate-600 ring-1 ring-inset ring-slate-500/10">
                         {currency}
                     </span>
                 </>
