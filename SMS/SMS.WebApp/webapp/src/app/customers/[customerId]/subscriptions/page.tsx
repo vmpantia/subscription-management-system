@@ -1,5 +1,5 @@
 'use client'
-import { getSubscriptions } from '@/api/SubscriptionApis'
+import { getCustomerSubscriptions } from '@/api/CustomerApis'
 import CustomBreadcrumbs from '@/components/CustomBreadcrumbs'
 import CustomCardCounts from '@/components/CustomCardCounts'
 import CustomTable from '@/components/tables/common/CustomTable'
@@ -28,7 +28,7 @@ const page = ({ params }: { params: { customerId: string } }) => {
 
   const fetchSubscriptions = () => {
     setIsLoading(true);
-    getSubscriptions()
+    getCustomerSubscriptions(params.customerId)
       .then((res:Result<SubscriptionViewModel[]>) => {
         if(res.isSuccess)
           setSubscriptions(res.data!);

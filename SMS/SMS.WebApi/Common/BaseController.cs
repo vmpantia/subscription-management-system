@@ -10,11 +10,9 @@ namespace SMS.WebApi.Common
     public class BaseController : ControllerBase
     {
         protected readonly IMediator _mediator;
-        protected readonly IMapper _mapper;
-        public BaseController(IMediator mediator, IMapper mapper)
+        public BaseController(IMediator mediator)
         {
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         protected async Task<IActionResult> HandleRequestAsync<TRequest, TResult>(TRequest request)

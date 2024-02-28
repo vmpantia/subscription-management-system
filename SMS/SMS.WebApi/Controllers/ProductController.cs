@@ -13,7 +13,7 @@ namespace SMS.WebApi.Controllers
     [Route("products")]
     public class ProductController : BaseController
     {
-        public ProductController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
+        public ProductController(IMediator mediator) : base(mediator) { }
 
         [HttpGet]
         public async Task<IActionResult> GetAllProductsAsync() =>

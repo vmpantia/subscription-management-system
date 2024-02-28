@@ -15,6 +15,7 @@ namespace SMS.Infrastructure.Extensions
             services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
         }
     }
 }

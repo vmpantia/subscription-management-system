@@ -15,13 +15,13 @@ namespace SMS.Domain.Models.Entities
         public string Code { get; set; }
         [StringLength(255)]
         public string? Description { get; set; }
-        [Required]
+        [Required, StringLength(100)]
         public string Vendor { get; set; }
-        [Required]
+        [Required, StringLength(100)]
         public string VendorProductCode { get; set; }
-        [Required]
+        [Required, StringLength(100)]
         public string VendorContractTerm { get; set; }
-        [Required]
+        [Required, StringLength(100)]
         public string Manufacturer { get; set; }
         [Required]
         public CommonStatus Status { get; set; }

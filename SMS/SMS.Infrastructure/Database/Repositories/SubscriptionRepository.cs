@@ -12,6 +12,8 @@ namespace SMS.Infrastructure.Database.Repositories
 
         public async Task<IEnumerable<Subscription>> GetSubscriptionsFullInfoAsync(Expression<Func<Subscription, bool>> expression) =>
             await FindByExpression(expression)
+                    .Include(tbl => tbl.Customer)
+                        .ThenInclude(tbl => tbl.BillToCustomer)
                     .Include(tbl => tbl.Product)
                         .ThenInclude(tbl => tbl.ProductGroup)
                             .ThenInclude(tbl => tbl.ProductType)

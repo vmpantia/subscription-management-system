@@ -42,10 +42,44 @@ namespace SMS.Domain.Stubs
                 .RuleFor(prop => prop.CreatedAt, faker => faker.Date.Past())
                 .RuleFor(prop => prop.CreatedBy, faker => faker.Internet.Email());
 
-        public static Faker<Subscription> FakerSubscription(IEnumerable<Guid> productIds) =>
+        public static Faker<Customer> FakerCustomer() =>
+            new Faker<Customer>()
+                .RuleFor(prop => prop.Id, faker => faker.Random.Guid())
+                .RuleFor(prop => prop.Name, faker => faker.Company.CompanyName())
+                .RuleFor(prop => prop.ShortName, faker => faker.Company.CompanySuffix())
+                .RuleFor(prop => prop.Currency, faker => faker.Finance.Currency().Code)
+                .RuleFor(prop => prop.Email, faker => faker.Internet.Email())
+                .RuleFor(prop => prop.Telephone, faker => faker.Phone.PhoneNumber())
+                .RuleFor(prop => prop.Address, faker => faker.Address.FullAddress())
+                .RuleFor(prop => prop.PrimaryContactName, faker => faker.Company.CompanyName())
+                .RuleFor(prop => prop.PrimaryContactEmail, faker => faker.Internet.Email())
+                .RuleFor(prop => prop.PrimaryContactTelephone, faker => faker.Phone.PhoneNumber())
+                .RuleFor(prop => prop.Status, faker => faker.PickRandom<CommonStatus>())
+                .RuleFor(prop => prop.CreatedAt, faker => faker.Date.Past())
+                .RuleFor(prop => prop.CreatedBy, faker => faker.Internet.Email());
+
+        public static Faker<Customer> FakerBillerCustomer(IEnumerable<Guid> customerIds) =>
+            new Faker<Customer>()
+                .RuleFor(prop => prop.Id, faker => faker.Random.Guid())
+                .RuleFor(prop => prop.BillToCustomerId, faker => faker.PickRandom(customerIds))
+                .RuleFor(prop => prop.Name, faker => faker.Company.CompanyName())
+                .RuleFor(prop => prop.ShortName, faker => faker.Company.CompanySuffix())
+                .RuleFor(prop => prop.Currency, faker => faker.Finance.Currency().Code)
+                .RuleFor(prop => prop.Email, faker => faker.Internet.Email())
+                .RuleFor(prop => prop.Telephone, faker => faker.Phone.PhoneNumber())
+                .RuleFor(prop => prop.Address, faker => faker.Address.FullAddress())
+                .RuleFor(prop => prop.PrimaryContactName, faker => faker.Company.CompanyName())
+                .RuleFor(prop => prop.PrimaryContactEmail, faker => faker.Internet.Email())
+                .RuleFor(prop => prop.PrimaryContactTelephone, faker => faker.Phone.PhoneNumber())
+                .RuleFor(prop => prop.Status, faker => faker.PickRandom<CommonStatus>())
+                .RuleFor(prop => prop.CreatedAt, faker => faker.Date.Past())
+                .RuleFor(prop => prop.CreatedBy, faker => faker.Internet.Email());
+
+        public static Faker<Subscription> FakerSubscription(IEnumerable<Guid> productIds, IEnumerable<Guid> customerIds) =>
             new Faker<Subscription>()
                 .RuleFor(prop => prop.Id, faker => faker.Random.Guid())
                 .RuleFor(prop => prop.ProductId, faker => faker.PickRandom(productIds))
+                .RuleFor(prop => prop.CustomerId, faker => faker.PickRandom(customerIds))
                 .RuleFor(prop => prop.Name, faker => faker.Company.CompanyName())
                 .RuleFor(prop => prop.Description, faker => faker.Company.Ein())
                 .RuleFor(prop => prop.Quantity, faker => faker.Random.Int())

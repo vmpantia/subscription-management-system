@@ -9,6 +9,8 @@ namespace SMS.Domain.Models.Entities
         public Guid Id { get; set; }
         [Required]
         public Guid ProductId { get; set; }
+        [Required]
+        public Guid CustomerId { get; set; }
         [Required, StringLength(100)]
         public string Name { get; set; }
         [StringLength(255)]
@@ -27,9 +29,9 @@ namespace SMS.Domain.Models.Entities
         public DateTime ActivationDate { get; set; }
         [Required]
         public bool IsAutomaticRenewal { get; set; }
-        [Required]
+        [Required, StringLength(100)]
         public string PaymentCycle { get; set; }
-        [Required]
+        [Required, StringLength(100)]
         public string SubscriptionCycle { get; set; }
         [Required]
         public SubscriptionStatus Status { get; set; }
@@ -42,5 +44,6 @@ namespace SMS.Domain.Models.Entities
         public string? UpdatedBy { get; set; }
 
         public virtual Product Product { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

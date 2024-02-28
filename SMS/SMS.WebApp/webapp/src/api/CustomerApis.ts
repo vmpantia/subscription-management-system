@@ -2,6 +2,6 @@ import { SubscriptionViewModel } from "@/interfaces/viewmodels/subscription/Subs
 import { AxiosApi } from "./AxiosApi";
 import { Result } from "@/interfaces/common/Result";
 
-export const getSubscriptions = () => 
-    AxiosApi.get<Result<SubscriptionViewModel[]>>('subscriptions')
+export const getCustomerSubscriptions = (customerId:string) => 
+    AxiosApi.get<Result<SubscriptionViewModel[]>>(`customers/${customerId}/subscriptions`)
             .then(({data}) => data);

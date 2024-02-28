@@ -30,8 +30,8 @@ namespace SMS.Core.QueryHandlers
             if (result is null)
                 return Result<IEnumerable<ProductViewModel>>.Failure(ProductErrors.NullValue);
 
-            var dto = _mapper.Map<IEnumerable<ProductViewModel>>(result);
-            return Result<IEnumerable<ProductViewModel>>.Success(dto);
+            var data = _mapper.Map<IEnumerable<ProductViewModel>>(result);
+            return Result<IEnumerable<ProductViewModel>>.Success(data);
         }
 
         public async Task<Result<IEnumerable<ProductLiteViewModel>>> Handle(GetAllProductLitesQuery request, CancellationToken cancellationToken)
@@ -41,20 +41,20 @@ namespace SMS.Core.QueryHandlers
             if (result is null)
                 return Result<IEnumerable<ProductLiteViewModel>>.Failure(ProductErrors.NullValue);
 
-            var dto = _mapper.Map<IEnumerable<ProductLiteViewModel>>(result);
-            return Result<IEnumerable<ProductLiteViewModel>>.Success(dto);
+            var data = _mapper.Map<IEnumerable<ProductLiteViewModel>>(result);
+            return Result<IEnumerable<ProductLiteViewModel>>.Success(data);
         }
 
         public async Task<Result<ProductViewModel>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await _product.GetProductFullInfoAsync(data => data.Id == request.Id && 
+            var result = await _product.GetProductFullInfoAsync(data => data.Id == request.ProductId && 
                                                                         data.Status != CommonStatus.Deleted);
 
             if (result is null)
-                return Result<ProductViewModel>.Failure(ProductErrors.NotFound(request.Id));
+                return Result<ProductViewModel>.Failure(ProductErrors.NotFound(request.ProductId));
 
-            var dto = _mapper.Map<ProductViewModel>(result);
-            return Result<ProductViewModel>.Success(dto);
+            var data = _mapper.Map<ProductViewModel>(result);
+            return Result<ProductViewModel>.Success(data);
         }
     }
 }

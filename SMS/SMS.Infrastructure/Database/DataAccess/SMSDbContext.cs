@@ -10,6 +10,7 @@ namespace SMS.Infrastructure.Database.DataAccess
         private readonly List<ProductGroup> _stubProductGroups = new List<ProductGroup>();
         private readonly List<Product> _stubProduct = new List<Product>();
         private readonly List<Subscription> _stubSubscriptions = new List<Subscription>();
+        private readonly List<Customer> _stubCustomers = new List<Customer>();
         public SMSDbContext(DbContextOptions options) : base(options)
         {
             #region Stub Data
@@ -19,12 +20,24 @@ namespace SMS.Infrastructure.Database.DataAccess
                                          .Generate(100);
             _stubProduct = FakeData.FakerProduct(_stubProductGroups.Select(data => data.Id))
                                    .Generate(1000);
-            _stubSubscriptions = FakeData.FakerSubscription(_stubProduct.Select(data => data.Id))
+
+            var customer = FakeData.FakerCustomer()
+                                   .Generate(200);
+            var customerWithBiller = FakeData.FakerBillerCustomer(customer.Select(data => data.Id))
+                                             .Generate(100);
+            _stubCustomers.AddRange(customer);
+            _stubCustomers.AddRange(customerWithBiller);
+
+            _stubSubscriptions = FakeData.FakerSubscription(_stubProduct.Select(data => data.Id), _stubCustomers.Select(data => data.Id))
                                          .Generate(1000);
             #endregion
         }
 
         public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductGroup> ProductGroups { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -89,11 +102,35 @@ namespace SMS.Infrastructure.Database.DataAccess
                     .HasForeignKey(subs => subs.ProductId)
                     .IsRequired();
 
+                enty.HasOne(subs => subs.Customer)
+                    .WithMany(prod => prod.Subscriptions)
+                    .HasForeignKey(subs => subs.CustomerId)
+                    .IsRequired();
+
                 // Indexing
                 enty.HasIndex(props => new { props.Name, props.IsAutomaticRenewal, props.Status, props.PaymentCycle, props.SubscriptionCycle });
 
                 // Data Seeds
                 enty.HasData(_stubSubscriptions);
+            });
+            modelBuilder.Entity<Customer>(enty =>
+            {
+                // Relationships
+                enty.HasMany(cstmr => cstmr.Subscriptions)
+                    .WithOne(subs => subs.Customer)
+                    .HasForeignKey(subs => subs.CustomerId)
+                    .IsRequired();
+
+                enty.HasOne(cstmr => cstmr.BillToCustomer)
+                    .WithMany(cstmr => cstmr.Customers)
+                    .HasForeignKey(subs => subs.BillToCustomerId)
+                    .IsRequired(false);
+
+                // Indexing
+                enty.HasIndex(props => new { props.Name, props.ShortName, props.Currency, props.Email, props.PrimaryContactEmail });
+
+                // Data Seeds
+                enty.HasData(_stubCustomers);
             });
         }
     }

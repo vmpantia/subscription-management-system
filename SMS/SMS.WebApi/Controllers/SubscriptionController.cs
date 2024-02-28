@@ -13,19 +13,11 @@ namespace SMS.WebApi.Controllers
     [Route("subscriptions")]
     public class SubscriptionController : BaseController
     {
-        public SubscriptionController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
+        public SubscriptionController(IMediator mediator) : base(mediator) { }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllSubscriptionsAsync() =>
-            await HandleRequestAsync<GetAllSubscriptionsQuery, IEnumerable<SubscriptionViewModel>>(new GetAllSubscriptionsQuery());
-
-        [HttpGet("lites")]
-        public async Task<IActionResult> GetAllSubscriptionLitesAsync() =>
-            await HandleRequestAsync<GetAllSubscriptionLitesQuery, IEnumerable<SubscriptionLiteViewModel>>(new GetAllSubscriptionLitesQuery());
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetSubscriptionAsync(Guid id) =>
-            await HandleRequestAsync<GetSubscriptionByIdQuery, SubscriptionViewModel>(new GetSubscriptionByIdQuery(id));
+        [HttpGet("{subscriptionId}")]
+        public async Task<IActionResult> GetSubscriptionAsync(Guid subscriptionId) =>
+            await HandleRequestAsync<GetSubscriptionByIdQuery, SubscriptionViewModel>(new GetSubscriptionByIdQuery(subscriptionId));
 
         [HttpPost]
         public async Task<IActionResult> CreateProductAsync([FromForm] CreateSubscriptionDto request) =>
