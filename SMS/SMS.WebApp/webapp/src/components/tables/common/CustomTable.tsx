@@ -23,16 +23,12 @@ const CustomTable = ({  name,
         state: {
             isLoading: isLoading,
             columnPinning: {
-                left: ['mrt-row-expand', 'mrt-row-select'],
-                right: ['mrt-row-actions'],
+                left: ['mrt-row-select', 'subscriptionAndProductName'],
             },
         },
         muiTableBodyProps:{
             sx: {
                 '& .MuiTableCell-sizeMedium': {
-                    whiteSpace: "pre-wrap",
-                    lineHeight: "25px",
-                    borderBottom: `1px dashed rgb(148 163 184)`,
                     color: 'rgb(51 65 85)',
                 },
             },
@@ -40,13 +36,9 @@ const CustomTable = ({  name,
         muiTableHeadCellProps:{
             sx: {
                 background: 'rgb(51 65 85)',
-                color: 'rgb(255 255 255)',
-                // whiteSpace: "pre-wrap",
-                '& .Mui-TableHeadCell-Content': {
-                    justifyContent: 'left',
-                },
-            }
-        }
+                color: 'rgb(255 255 255)'
+            },
+        },
     });
 
     return (
