@@ -8,6 +8,9 @@ import { Result } from '@/interfaces/common/Result'
 import { CustomBreadcrumbsPage } from '@/interfaces/props/CustomBreadcrumbsProps'
 import { CustomCardCount } from '@/interfaces/props/CustomCardCountProps'
 import { SubscriptionViewModel } from '@/interfaces/viewmodels/subscription/SubscriptionViewModel'
+import { EditOutlined, SettingsOutlined } from '@mui/icons-material'
+import { Avatar, Card, Skeleton } from 'antd'
+import Meta from 'antd/es/card/Meta'
 import React, { useEffect, useState } from 'react'
 
 const page = ({ params }: { params: { customerId: string } }) => {
@@ -25,9 +28,11 @@ const page = ({ params }: { params: { customerId: string } }) => {
     { link: null, name: 'Subscriptions' },
   ] 
   const cardsConfig : CustomCardCount[] = [
-    { title: 'No. of Active Status', count: 5 },
-    { title: 'No. of Inactive Status', count: 5 },
-    { title: 'No. of Deleted Status', count: 5 },
+    { title: 'No. of Subscriptions', count: isLoading ? '-' : subscriptions.length },
+    { title: 'No. of Active Status', count: isLoading ? '-' : subscriptions.filter(sub => sub.status === 'Active').length },
+    { title: 'No. of Inactive Status', count: isLoading ? '-' : subscriptions.filter(sub => sub.status === 'Inactive').length },
+    { title: 'No. of Expired Status', count: isLoading ? '-' : subscriptions.filter(sub => sub.status === 'Expired').length },
+    { title: 'No. of Cancelled Status', count: isLoading ? '-' : subscriptions.filter(sub => sub.status === 'Cancelled').length },
   ]
 
   // Functions
@@ -54,20 +59,21 @@ const page = ({ params }: { params: { customerId: string } }) => {
       })
       .catch((err:any) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
   
   useEffect(() => {
-    setIsLoading(true);
     fetchCustomerSubscriptions();
     fetchCustomerName();
-    setIsLoading(false);
   }, [])
 
   return (
     <div className='p-10'>
       <CustomBreadcrumbs pages={breadCrumbsConfig} />
-      <CustomCardCounts cards={cardsConfig} />
+      <CustomCardCounts cards={cardsConfig} isLoading={isLoading} />
       <CustomTable name='Subscriptions'
                    data={subscriptions}
                    columns={CustomerSubscriptionsTableColumn}
