@@ -6,6 +6,10 @@ export const getCustomerSubscriptions = (customerId:string) =>
     AxiosApi.get<Result<SubscriptionViewModel[]>>(`customers/${customerId}/subscriptions`)
             .then(({data}) => data);
 
+export const getCustomerBillingSubscriptions = (customerId:string) => 
+    AxiosApi.get<Result<SubscriptionViewModel[]>>(`customers/${customerId}/billing-subscriptions`)
+            .then(({data}) => data);
+
 export const getCustomerName = (customerId:string) => 
     AxiosApi.get<Result<string>>(`customers/${customerId}/name`)
             .then(({data}) => data);

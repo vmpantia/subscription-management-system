@@ -19,7 +19,7 @@ const CustomCardCounts : React.FC<CustomCardCountProps> = ({ cards, isLoading })
             </div> 
         
     return (
-        <div className='pb-2'>
+        <div>
             <div className='py-5 text-xl font-bold text-slate-700'>
                 Summary
             </div>

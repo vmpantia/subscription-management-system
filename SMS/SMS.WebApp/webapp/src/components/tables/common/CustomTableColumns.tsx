@@ -182,3 +182,15 @@ export const CustomerSubscriptionsTableColumn : MRT_ColumnDef<SubscriptionViewMo
     currencyColumn('Unit Price', 'unitPrice') as MRT_ColumnDef<SubscriptionViewModel>,
     currencyColumn('Total', 'total') as MRT_ColumnDef<SubscriptionViewModel>
 ]
+
+export const CustomerBillingSubscriptionsTableColumn : MRT_ColumnDef<SubscriptionViewModel>[] = [
+    subscriptionAndProductNameColumn(300, false) as MRT_ColumnDef<SubscriptionViewModel>,
+    defaultColumn('Customer', 'customerName', 250) as MRT_ColumnDef<SubscriptionViewModel>,
+    dateColumnWithDueInDay('Anniversary Date', 'anniversaryDate', 200) as MRT_ColumnDef<SubscriptionViewModel>,
+    statusColumn('Status', 'status') as MRT_ColumnDef<SubscriptionViewModel>,
+    quantityColumn('Quantity', 'quantity') as MRT_ColumnDef<SubscriptionViewModel>,
+    defaultColumn('Subscription Cycle', 'subscriptionCycle') as MRT_ColumnDef<SubscriptionViewModel>,
+    defaultColumn('Payment Cycle', 'paymentCycle') as MRT_ColumnDef<SubscriptionViewModel>,
+    currencyColumn('Unit Price', 'unitPrice') as MRT_ColumnDef<SubscriptionViewModel>,
+    currencyColumn('Total', 'total') as MRT_ColumnDef<SubscriptionViewModel>
+]

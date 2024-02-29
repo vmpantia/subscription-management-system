@@ -18,10 +18,10 @@ namespace SMS.Core.Mapping
                 .ForMember(dst => dst.ProductGroupName, opt => opt.MapFrom(src => src.Product.ProductGroup.Name))
                 .ForMember(dst => dst.ProductTypeName, opt => opt.MapFrom(src => src.Product.ProductGroup.ProductType.Name))
                 .ForMember(dst => dst.CustomerId, opt => opt.MapFrom(src => src.Customer.Id))
-                .ForMember(dst => dst.CustomerName, opt => opt.MapFrom(src => src.Customer.Name))
+                .ForMember(dst => dst.CustomerName, opt => opt.MapFrom(src => $"{src.Customer.Name} ({src.Customer.ShortName})"))
                 .ForMember(dst => dst.CustomerCurrency, opt => opt.MapFrom(src => src.Customer.Currency))
                 .ForMember(dst => dst.CustomerBillerId, opt => opt.MapFrom(src => src.Customer.BillToCustomer.Id))
-                .ForMember(dst => dst.CustomerBillerName, opt => opt.MapFrom(src => src.Customer.BillToCustomer.Name))
+                .ForMember(dst => dst.CustomerBillerName, opt => opt.MapFrom(src => src.Customer.BillToCustomer == null ? null : $"{src.Customer.BillToCustomer.Name} ({src.Customer.BillToCustomer.ShortName})"))
                 .ForMember(dst => dst.CustomerBillerCurrency, opt => opt.MapFrom(src => src.Customer.BillToCustomer.Currency));
         }
     }

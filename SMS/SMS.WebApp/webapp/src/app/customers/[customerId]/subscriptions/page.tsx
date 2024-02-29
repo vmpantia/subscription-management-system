@@ -1,9 +1,9 @@
 'use client'
-import { getCustomerName, getCustomerSubscriptions } from '@/api/CustomerApis'
+import { getCustomerBillingSubscriptions, getCustomerName, getCustomerSubscriptions } from '@/api/CustomerApis'
 import CustomBreadcrumbs from '@/components/CustomBreadcrumbs'
 import CustomCardCounts from '@/components/CustomCardCounts'
 import CustomTable from '@/components/tables/common/CustomTable'
-import { CustomerSubscriptionsTableColumn } from '@/components/tables/common/CustomTableColumns'
+import { CustomerBillingSubscriptionsTableColumn, CustomerSubscriptionsTableColumn } from '@/components/tables/common/CustomTableColumns'
 import { Result } from '@/interfaces/common/Result'
 import { CustomBreadcrumbsPage } from '@/interfaces/props/CustomBreadcrumbsProps'
 import { CustomCardCount } from '@/interfaces/props/CustomCardCountProps'
@@ -16,9 +16,11 @@ import React, { useEffect, useState } from 'react'
 const page = ({ params }: { params: { customerId: string } }) => {
 
   // Hooks
-  const [subscriptions, setSubscriptions] = useState<SubscriptionViewModel[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [customerName, setCustomerName] = useState<string>('-');
+  const [subscriptions, setSubscriptions] = useState<SubscriptionViewModel[]>([]);
+  const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState<boolean>(true);
+  const [billingSubscriptions, setBillingSubscriptions] = useState<SubscriptionViewModel[]>([]);
+  const [isBillingSubscriptionsLoading, setIsBillingSubscriptionsLoading] = useState<boolean>(true);
 
   // Component Configurations
   const breadCrumbsConfig : CustomBreadcrumbsPage[] = [
@@ -28,11 +30,11 @@ const page = ({ params }: { params: { customerId: string } }) => {
     { link: null, name: 'Subscriptions' },
   ] 
   const cardsConfig : CustomCardCount[] = [
-    { title: 'No. of Subscriptions', count: isLoading ? '-' : subscriptions.length },
-    { title: 'No. of Active Status', count: isLoading ? '-' : subscriptions.filter(sub => sub.status === 'Active').length },
-    { title: 'No. of Inactive Status', count: isLoading ? '-' : subscriptions.filter(sub => sub.status === 'Inactive').length },
-    { title: 'No. of Expired Status', count: isLoading ? '-' : subscriptions.filter(sub => sub.status === 'Expired').length },
-    { title: 'No. of Cancelled Status', count: isLoading ? '-' : subscriptions.filter(sub => sub.status === 'Cancelled').length },
+    { title: 'No. of Subscriptions', count: isSubscriptionsLoading ? '-' : subscriptions.length },
+    { title: 'No. of Active Status', count: isSubscriptionsLoading ? '-' : subscriptions.filter(sub => sub.status === 'Active').length },
+    { title: 'No. of Inactive Status', count: isSubscriptionsLoading ? '-' : subscriptions.filter(sub => sub.status === 'Inactive').length },
+    { title: 'No. of Expired Status', count: isSubscriptionsLoading ? '-' : subscriptions.filter(sub => sub.status === 'Expired').length },
+    { title: 'No. of Cancelled Status', count: isSubscriptionsLoading ? '-' : subscriptions.filter(sub => sub.status === 'Cancelled').length },
   ]
 
   // Functions
@@ -49,7 +51,7 @@ const page = ({ params }: { params: { customerId: string } }) => {
       });
   }
   const fetchCustomerSubscriptions = () => {
-    setIsLoading(true);
+    setIsSubscriptionsLoading(true);
     getCustomerSubscriptions(params.customerId)
       .then((res:Result<SubscriptionViewModel[]>) => {
         if(res.isSuccess)
@@ -61,24 +63,46 @@ const page = ({ params }: { params: { customerId: string } }) => {
         console.log(err);
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsSubscriptionsLoading(false);
+      });
+  }
+  const fetchCustomerBillingSubscriptions = () => {
+    setIsBillingSubscriptionsLoading(true);
+    getCustomerBillingSubscriptions(params.customerId)
+      .then((res:Result<SubscriptionViewModel[]>) => {
+        if(res.isSuccess)
+          setBillingSubscriptions(res.data!);
+        else
+          console.log(`${res.error!.code} | ${res.error!.type} | ${res.error!.description}`);
+      })
+      .catch((err:any) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsBillingSubscriptionsLoading(false);
       });
   }
   
   useEffect(() => {
-    fetchCustomerSubscriptions();
     fetchCustomerName();
+    fetchCustomerSubscriptions();
+    fetchCustomerBillingSubscriptions();
   }, [])
 
   return (
     <div className='p-10'>
       <CustomBreadcrumbs pages={breadCrumbsConfig} />
-      <CustomCardCounts cards={cardsConfig} isLoading={isLoading} />
+      <CustomCardCounts cards={cardsConfig} isLoading={isSubscriptionsLoading} />
       <CustomTable name='Subscriptions'
                    data={subscriptions}
                    columns={CustomerSubscriptionsTableColumn}
-                   isLoading={isLoading}
+                   isLoading={isSubscriptionsLoading}
                    enableRowSelection={true}/>
+      <CustomTable name='Billing Subscriptions'
+                  data={billingSubscriptions}
+                  columns={CustomerBillingSubscriptionsTableColumn}
+                  isLoading={isBillingSubscriptionsLoading}
+                  enableRowSelection={false}/>
     </div>
   )
 }

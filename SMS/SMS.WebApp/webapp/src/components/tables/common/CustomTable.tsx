@@ -23,7 +23,7 @@ const CustomTable = ({  name,
         state: {
             isLoading: isLoading,
             columnPinning: {
-                left: ['mrt-row-select', 'subscriptionAndProductName'],
+                left: ['mrt-row-select', 'subscriptionAndProductName', 'customerName'],
             },
         },
         muiTableBodyProps:{
