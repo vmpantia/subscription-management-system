@@ -8,9 +8,6 @@ import { Result } from '@/interfaces/common/Result'
 import { CustomBreadcrumbsPage } from '@/interfaces/props/CustomBreadcrumbsProps'
 import { CustomCardCount } from '@/interfaces/props/CustomCardCountProps'
 import { SubscriptionViewModel } from '@/interfaces/viewmodels/subscription/SubscriptionViewModel'
-import { EditOutlined, SettingsOutlined } from '@mui/icons-material'
-import { Avatar, Card, Skeleton } from 'antd'
-import Meta from 'antd/es/card/Meta'
 import React, { useEffect, useState } from 'react'
 
 const page = ({ params }: { params: { customerId: string } }) => {
@@ -90,20 +87,20 @@ const page = ({ params }: { params: { customerId: string } }) => {
   }, [])
 
   return (
-    <div className='p-10'>
+    <>
       <CustomBreadcrumbs pages={breadCrumbsConfig} />
       <CustomCardCounts cards={cardsConfig} isLoading={isSubscriptionsLoading} />
       <CustomTable name='Subscriptions'
-                   data={subscriptions}
-                   columns={CustomerSubscriptionsTableColumn}
-                   isLoading={isSubscriptionsLoading}
-                   enableRowSelection={true}/>
+                  data={subscriptions}
+                  columns={CustomerSubscriptionsTableColumn}
+                  isLoading={isSubscriptionsLoading}
+                  enableRowSelection={true}/>
       <CustomTable name='Billing Subscriptions'
                   data={billingSubscriptions}
                   columns={CustomerBillingSubscriptionsTableColumn}
                   isLoading={isBillingSubscriptionsLoading}
                   enableRowSelection={false}/>
-    </div>
+    </>
   )
 }
 
