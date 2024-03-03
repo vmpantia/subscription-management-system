@@ -12,7 +12,8 @@ namespace SMS.Core.QueryHandlers
     public class CustomerQueryHandlers : 
         IRequestHandler<GetCustomerSubscriptionsByIdQuery, Result<IEnumerable<CustomerSubscriptionViewModel>>>,
         IRequestHandler<GetCustomerBillingSubscriptionsByIdQuery, Result<IEnumerable<CustomerSubscriptionViewModel>>>,
-        IRequestHandler<GetCustomerNameByIdQuery, Result<string>>
+        IRequestHandler<GetCustomerNameByIdQuery, Result<string>>,
+        IRequestHandler<GetAllCustomersQuery, Result<IEnumerable<CustomerViewModel>>>
     {
         private readonly ICustomerRepository _customer;
         private readonly ISubscriptionRepository _subscription;
@@ -75,6 +76,20 @@ namespace SMS.Core.QueryHandlers
                 return Result<string>.Failure(CustomerErrors.NotFound(request.CustomerId));
 
             return Result<string>.Success($"{result.Name} ({result.ShortName})");
+        }
+
+        public async Task<Result<IEnumerable<CustomerViewModel>>> Handle(GetAllCustomersQuery request, CancellationToken cancellationToken)
+        {
+            // Get all the customers in the datagbase
+            var result = await _customer.GetCustomersFullInfoAsync(data => data.Status != CommonStatus.Deleted);
+
+            // Check if customers or result is NULL
+            if (result is null)
+                return Result<IEnumerable<CustomerViewModel>>.Failure(CustomerErrors.NullValue);
+
+            // Convert result to view model
+            var data = _mapper.Map<IEnumerable<CustomerViewModel>>(result);
+            return Result<IEnumerable<CustomerViewModel>>.Success(data);
         }
     }
 }

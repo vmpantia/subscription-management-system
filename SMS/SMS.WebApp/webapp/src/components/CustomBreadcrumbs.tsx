@@ -11,7 +11,7 @@ const CustomBreadcrumbs : React.FC<CustomBreadcrumbsProps> = ({ pages }) => {
         <li className="flex items-center">
             <div className="flex items-center">
                 {rightArrow}
-                <span className="ms-1 text-md text-slate-700 font-medium md:ms-2">{page}</span>
+                <span className="ms-1 text-md text-slate-700 font-bold md:ms-2">{page}</span>
             </div>
         </li>
 

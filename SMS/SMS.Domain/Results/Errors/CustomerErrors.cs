@@ -5,5 +5,6 @@ namespace SMS.Domain.Results.Errors
     public class CustomerErrors
     {
         public static Error NotFound(object id) => new(ErrorCode.NotFound, "Customer", $"Customer with an Id {id} is NOT found on the database.");
+        public static Error NullValue => new(ErrorCode.NullValue, "Customer", "Customer(s) cannnot be NULL.");
     }
 }

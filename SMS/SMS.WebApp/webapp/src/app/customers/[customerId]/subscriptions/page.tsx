@@ -7,16 +7,16 @@ import { CustomerBillingSubscriptionsTableColumn, CustomerSubscriptionsTableColu
 import { Result } from '@/interfaces/common/Result'
 import { CustomBreadcrumbsPage } from '@/interfaces/props/CustomBreadcrumbsProps'
 import { CustomCardCount } from '@/interfaces/props/CustomCardCountProps'
-import { SubscriptionViewModel } from '@/interfaces/viewmodels/subscription/SubscriptionViewModel'
+import { CustomerSubscriptionViewModel } from '@/interfaces/viewmodels/customer/CustomerSubscriptionViewModel'
 import React, { useEffect, useState } from 'react'
 
 const page = ({ params }: { params: { customerId: string } }) => {
 
   // Hooks
   const [customerName, setCustomerName] = useState<string>('-');
-  const [subscriptions, setSubscriptions] = useState<SubscriptionViewModel[]>([]);
+  const [subscriptions, setSubscriptions] = useState<CustomerSubscriptionViewModel[]>([]);
   const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState<boolean>(true);
-  const [billingSubscriptions, setBillingSubscriptions] = useState<SubscriptionViewModel[]>([]);
+  const [billingSubscriptions, setBillingSubscriptions] = useState<CustomerSubscriptionViewModel[]>([]);
   const [isBillingSubscriptionsLoading, setIsBillingSubscriptionsLoading] = useState<boolean>(true);
 
   // Component Configurations
@@ -50,7 +50,7 @@ const page = ({ params }: { params: { customerId: string } }) => {
   const fetchCustomerSubscriptions = () => {
     setIsSubscriptionsLoading(true);
     getCustomerSubscriptions(params.customerId)
-      .then((res:Result<SubscriptionViewModel[]>) => {
+      .then((res:Result<CustomerSubscriptionViewModel[]>) => {
         if(res.isSuccess)
           setSubscriptions(res.data!);
         else
@@ -66,7 +66,7 @@ const page = ({ params }: { params: { customerId: string } }) => {
   const fetchCustomerBillingSubscriptions = () => {
     setIsBillingSubscriptionsLoading(true);
     getCustomerBillingSubscriptions(params.customerId)
-      .then((res:Result<SubscriptionViewModel[]>) => {
+      .then((res:Result<CustomerSubscriptionViewModel[]>) => {
         if(res.isSuccess)
           setBillingSubscriptions(res.data!);
         else

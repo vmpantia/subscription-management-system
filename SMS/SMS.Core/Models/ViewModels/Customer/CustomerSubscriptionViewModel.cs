@@ -8,8 +8,8 @@ namespace SMS.Core.Models.ViewModels.Customer
         public string CustomerName { get; set; }
         public string CustomerCurrency { get; set; }
 
-        public Guid? CustomerBillerId { get; set; }
-        public string? CustomerBillerName { get; set; }
-        public string? CustomerBillerCurrency { get; set; }
+        public Guid? BillToCustomerId { get; set; }
+        public string? BillToCustomerName { get; set; }
+        public string? BillToCustomerCurrency { get; set; }
     }
 }

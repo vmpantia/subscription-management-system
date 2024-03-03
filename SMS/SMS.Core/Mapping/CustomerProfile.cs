@@ -8,6 +8,13 @@ namespace SMS.Core.Mapping
     {
         public CustomerProfile()
         {
+            CreateMap<Customer, CustomerViewModel>()
+                .ForMember(dst => dst.Name, opt => opt.MapFrom(src => $"{src.Name} ({src.ShortName})"))
+                .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.Status.ToString()))
+                .ForMember(dst => dst.BillToCustomerId, opt => opt.MapFrom(src => src.BillToCustomer.Id))
+                .ForMember(dst => dst.BillToCustomerName, opt => opt.MapFrom(src => src.BillToCustomer == null ? null : $"{src.BillToCustomer.Name} ({src.BillToCustomer.ShortName})"))
+                .ForMember(dst => dst.BillToCustomerCurrency, opt => opt.MapFrom(src => src.BillToCustomer.Currency));
+
             CreateMap<Subscription, CustomerSubscriptionViewModel>()
                 .ForMember(dst => dst.Total, opt => opt.MapFrom(src => src.Quantity * src.UnitPrice))
                 .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.Status.ToString()))
@@ -20,9 +27,9 @@ namespace SMS.Core.Mapping
                 .ForMember(dst => dst.CustomerId, opt => opt.MapFrom(src => src.Customer.Id))
                 .ForMember(dst => dst.CustomerName, opt => opt.MapFrom(src => $"{src.Customer.Name} ({src.Customer.ShortName})"))
                 .ForMember(dst => dst.CustomerCurrency, opt => opt.MapFrom(src => src.Customer.Currency))
-                .ForMember(dst => dst.CustomerBillerId, opt => opt.MapFrom(src => src.Customer.BillToCustomer.Id))
-                .ForMember(dst => dst.CustomerBillerName, opt => opt.MapFrom(src => src.Customer.BillToCustomer == null ? null : $"{src.Customer.BillToCustomer.Name} ({src.Customer.BillToCustomer.ShortName})"))
-                .ForMember(dst => dst.CustomerBillerCurrency, opt => opt.MapFrom(src => src.Customer.BillToCustomer.Currency));
+                .ForMember(dst => dst.BillToCustomerId, opt => opt.MapFrom(src => src.Customer.BillToCustomer.Id))
+                .ForMember(dst => dst.BillToCustomerName, opt => opt.MapFrom(src => src.Customer.BillToCustomer == null ? null : $"{src.Customer.BillToCustomer.Name} ({src.Customer.BillToCustomer.ShortName})"))
+                .ForMember(dst => dst.BillToCustomerCurrency, opt => opt.MapFrom(src => src.Customer.BillToCustomer.Currency));
         }
     }
 }

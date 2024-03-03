@@ -1,4 +1,5 @@
-import { SubscriptionViewModel } from "@/interfaces/viewmodels/subscription/SubscriptionViewModel";
+import { CustomerSubscriptionViewModel } from "@/interfaces/viewmodels/customer/CustomerSubscriptionViewModel";
+import { CustomerViewModel } from "@/interfaces/viewmodels/customer/CustomerViewModel";
 import { MRT_ColumnDef } from "material-react-table";
 import moment from "moment";
 
@@ -24,12 +25,12 @@ const defaultColumn = (header:string, key:string, colWidth:number = 100, enableC
     }
 }
 
-const subscriptionAndProductNameColumn = (colWidth:number = 100, enableColumnOrdering:boolean = true) => {
+const subscribedProductColumn = (colWidth:number = 100, enableColumnOrdering:boolean = true) => {
     return {
-        id: 'subscriptionAndProductName',
-        header: 'Subscribed Product or Service',
+        id: 'subscrbiedProduct',
+        header: 'Subscribed Product',
         size: colWidth,
-        accessorFn: (row:SubscriptionViewModel) => row.name === row.productName ? 
+        accessorFn: (row:any) => row.name === row.productName ? 
                                                         row.name : `${row.name} (${row.productName})`,
         enableColumnOrdering: enableColumnOrdering
     }
@@ -158,25 +159,54 @@ const statusColumn = (header:string, key:string, colWidth:number = 100, enableCo
     }
 }
 
-export const CustomerSubscriptionsTableColumn : MRT_ColumnDef<SubscriptionViewModel>[] = [
-    subscriptionAndProductNameColumn(300, false) as MRT_ColumnDef<SubscriptionViewModel>,
-    dateColumnWithDueInDay('Anniversary Date', 'anniversaryDate', 200) as MRT_ColumnDef<SubscriptionViewModel>,
-    statusColumn('Status', 'status') as MRT_ColumnDef<SubscriptionViewModel>,
-    quantityColumn('Quantity', 'quantity') as MRT_ColumnDef<SubscriptionViewModel>,
-    defaultColumn('Subscription Cycle', 'subscriptionCycle') as MRT_ColumnDef<SubscriptionViewModel>,
-    defaultColumn('Payment Cycle', 'paymentCycle') as MRT_ColumnDef<SubscriptionViewModel>,
-    currencyColumn('Unit Price', 'unitPrice') as MRT_ColumnDef<SubscriptionViewModel>,
-    currencyColumn('Total', 'total') as MRT_ColumnDef<SubscriptionViewModel>
+const customerNameWithLinkColumn = (header:string, keyId:string, keyName:string, colWidth:number = 100, enableColumnOrdering:boolean = true) => {
+    return {
+        id: 'customerName',
+        header: header,
+        size: colWidth,
+        enableColumnOrdering: enableColumnOrdering,
+        accessorFn: (row:any) => {
+            let id = row[keyId];
+            let name = row[keyName];
+            return (
+                <a href={`http://localhost:3000/customers/${id}`}
+                    className="font-bold hover:text-slate-700">
+                    {name}
+                </a>
+            )
+        },
+        sortingFn: (rowA:any, rowB:any) => defaultSorting(keyName, rowA, rowB),
+        filterFn: (row:any, id:any, filterValue:any) => defaultEqualContains(keyName, row, filterValue),
+    }
+}
+
+export const CustomerSubscriptionsTableColumn : MRT_ColumnDef<CustomerSubscriptionViewModel>[] = [
+    subscribedProductColumn(300, false) as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    dateColumnWithDueInDay('Anniversary Date', 'anniversaryDate', 200) as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    statusColumn('Status', 'status') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    quantityColumn('Quantity', 'quantity') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    defaultColumn('Subscription Cycle', 'subscriptionCycle') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    defaultColumn('Payment Cycle', 'paymentCycle') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    currencyColumn('Unit Price', 'unitPrice') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    currencyColumn('Total', 'total') as MRT_ColumnDef<CustomerSubscriptionViewModel>
 ]
 
-export const CustomerBillingSubscriptionsTableColumn : MRT_ColumnDef<SubscriptionViewModel>[] = [
-    subscriptionAndProductNameColumn(300, false) as MRT_ColumnDef<SubscriptionViewModel>,
-    defaultColumn('Customer', 'customerName', 250) as MRT_ColumnDef<SubscriptionViewModel>,
-    dateColumnWithDueInDay('Anniversary Date', 'anniversaryDate', 200) as MRT_ColumnDef<SubscriptionViewModel>,
-    statusColumn('Status', 'status') as MRT_ColumnDef<SubscriptionViewModel>,
-    quantityColumn('Quantity', 'quantity') as MRT_ColumnDef<SubscriptionViewModel>,
-    defaultColumn('Subscription Cycle', 'subscriptionCycle') as MRT_ColumnDef<SubscriptionViewModel>,
-    defaultColumn('Payment Cycle', 'paymentCycle') as MRT_ColumnDef<SubscriptionViewModel>,
-    currencyColumn('Unit Price', 'unitPrice') as MRT_ColumnDef<SubscriptionViewModel>,
-    currencyColumn('Total', 'total') as MRT_ColumnDef<SubscriptionViewModel>
+export const CustomerBillingSubscriptionsTableColumn : MRT_ColumnDef<CustomerSubscriptionViewModel>[] = [
+    subscribedProductColumn(300, false) as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    customerNameWithLinkColumn('Customer', 'customerId', 'customerName', 250, false) as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    dateColumnWithDueInDay('Anniversary Date', 'anniversaryDate', 200) as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    statusColumn('Status', 'status') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    quantityColumn('Quantity', 'quantity') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    defaultColumn('Subscription Cycle', 'subscriptionCycle') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    defaultColumn('Payment Cycle', 'paymentCycle') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    currencyColumn('Unit Price', 'unitPrice') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    currencyColumn('Total', 'total') as MRT_ColumnDef<CustomerSubscriptionViewModel>
+]
+
+export const CustomerTableColumn : MRT_ColumnDef<CustomerViewModel>[] = [
+    customerNameWithLinkColumn('Name', 'id', 'name', 250) as MRT_ColumnDef<CustomerViewModel>,
+    defaultColumn('Currency', 'currency', 250) as MRT_ColumnDef<CustomerViewModel>,
+    defaultColumn('Email', 'email', 250) as MRT_ColumnDef<CustomerViewModel>,
+    defaultColumn('Telephone', 'telephone', 250) as MRT_ColumnDef<CustomerViewModel>,
+    statusColumn('Status', 'status', 250) as MRT_ColumnDef<CustomerViewModel>,
 ]

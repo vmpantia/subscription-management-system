@@ -12,6 +12,10 @@ namespace SMS.WebApi.Controllers
     {
         public CustomerController(IMediator mediator) : base(mediator) { }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllCustomers() =>
+            await HandleRequestAsync<GetAllCustomersQuery, IEnumerable<CustomerViewModel>>(new GetAllCustomersQuery());
+
         [HttpGet("{customerId}/subscriptions")]
         public async Task<IActionResult> GetCustomerSubscriptions(Guid customerId) =>
             await HandleRequestAsync<GetCustomerSubscriptionsByIdQuery, IEnumerable<CustomerSubscriptionViewModel>>(new GetCustomerSubscriptionsByIdQuery(customerId));

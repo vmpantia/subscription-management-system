@@ -23,13 +23,13 @@ const CustomTable = ({  name,
         state: {
             isLoading: isLoading,
             columnPinning: {
-                left: ['mrt-row-select', 'subscriptionAndProductName', 'customerName'],
+                left: ['mrt-row-select', 'subscrbiedProduct', 'customerName'],
             },
         },
         muiTableBodyProps:{
             sx: {
                 '& .MuiTableCell-sizeMedium': {
-                    color: 'rgb(51 65 85)',
+                    color: 'rgb(100 116 139)',
                 },
             },
         },
