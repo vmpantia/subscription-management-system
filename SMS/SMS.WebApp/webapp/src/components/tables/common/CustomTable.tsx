@@ -36,9 +36,17 @@ const CustomTable = ({  name,
         muiTableHeadCellProps:{
             sx: {
                 background: 'rgb(51 65 85)',
-                color: 'rgb(255 255 255)'
+                color: 'white'
             },
         },
+        muiCircularProgressProps: {
+            thickness: 4,
+            size: 40,
+            style: {
+                marginTop: 50,
+                color: 'rgb(51 65 85)'
+            }
+        }
     });
 
     return (

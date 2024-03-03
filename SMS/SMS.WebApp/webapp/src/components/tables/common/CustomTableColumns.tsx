@@ -1,8 +1,18 @@
 import { SubscriptionViewModel } from "@/interfaces/viewmodels/subscription/SubscriptionViewModel";
-import { ClassNames } from "@emotion/react";
-import { Box } from "@mui/material";
 import { MRT_ColumnDef } from "material-react-table";
 import moment from "moment";
+
+const defaultSorting = (key:string, rowA:any, rowB:any) => {
+    const dateA = rowA.original[key];
+    const dateB = rowB.original[key];
+    return dateA < dateB ?  1 : dateA > dateB ? -1 : 0;
+}
+
+const defaultFilterContains = (key:string, row:any, filterValue:any) =>
+    row.original[key].toLowerCase().includes(filterValue.toLowerCase())
+
+const defaultEqualContains = (key:string, row:any, filterValue:any) =>
+    row.original[key] == filterValue;
 
 const defaultColumn = (header:string, key:string, colWidth:number = 100, enableColumnOrdering:boolean = true) => {
     return {
@@ -74,14 +84,8 @@ const dateColumnWithDueInDay = (header:string, key:string, colWidth:number = 100
                     </>
                 );
         },
-        sortingFn: (rowA:any, rowB:any) => {
-            const dateA = rowA.original[key];
-            const dateB = rowB.original[key];
-            return dateA < dateB ?  1 : dateA > dateB ? -1 : 0;
-        },
-        filterFn: (row:any, id:any, filterValue:any) => {
-            return row.original[key].toLowerCase().includes(filterValue.toLowerCase())
-        }
+        sortingFn: (rowA:any, rowB:any) => defaultSorting(key, rowA, rowB),
+        filterFn: (row:any, id:any, filterValue:any) => defaultFilterContains(key, row, filterValue),
     }
 }
 
@@ -104,14 +108,8 @@ const currencyColumn = (header:string, key:string, currency:string = "PHP", colW
                 </>
             )
         },
-        sortingFn: (rowA:any, rowB:any) => {
-            const dateA = rowA.original[key];
-            const dateB = rowB.original[key];
-            return dateA < dateB ?  1 : dateA > dateB ? -1 : 0;
-        },
-        filterFn: (row:any, id:any, filterValue:any) => {
-            return row.original[key] == filterValue;
-        }
+        sortingFn: (rowA:any, rowB:any) => defaultSorting(key, rowA, rowB),
+        filterFn: (row:any, id:any, filterValue:any) => defaultEqualContains(key, row, filterValue),
     }
 }
 
@@ -127,14 +125,8 @@ const quantityColumn = (header:string, key:string, colWidth:number = 100, enable
                 <label>{value} <i>pc(s)</i></label>
             )
         },
-        sortingFn: (rowA:any, rowB:any) => {
-            const dateA = rowA.original[key];
-            const dateB = rowB.original[key];
-            return dateA < dateB ?  1 : dateA > dateB ? -1 : 0;
-        },
-        filterFn: (row:any, id:any, filterValue:any) => {
-            return row.original[key] == filterValue;
-        }
+        sortingFn: (rowA:any, rowB:any) => defaultSorting(key, rowA, rowB),
+        filterFn: (row:any, id:any, filterValue:any) => defaultEqualContains(key, row, filterValue),
     }
 }
 
@@ -161,14 +153,8 @@ const statusColumn = (header:string, key:string, colWidth:number = 100, enableCo
             }
             return (<span className={style}>{value}</span>)
         },
-        sortingFn: (rowA:any, rowB:any) => {
-            const dateA = rowA.original[key];
-            const dateB = rowB.original[key];
-            return dateA < dateB ?  1 : dateA > dateB ? -1 : 0;
-        },
-        filterFn: (row:any, id:any, filterValue:any) => {
-            return row.original[key] == filterValue;
-        }
+        sortingFn: (rowA:any, rowB:any) => defaultSorting(key, rowA, rowB),
+        filterFn: (row:any, id:any, filterValue:any) => defaultEqualContains(key, row, filterValue),
     }
 }
 

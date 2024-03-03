@@ -13,7 +13,7 @@ const page = ({ params }: { params: { customerId: string } }) => {
     // Component Configurations
     const breadCrumbsConfig : CustomBreadcrumbsPage[] = [
         { link: 'http://localhost:3000/', name: 'Home' },
-        { link: 'http://localhost:3000/customers', name: 'Customer' },
+        { link: 'http://localhost:3000/customers', name: 'Customers' },
         { link: null, name: customerName },
     ] 
     
@@ -22,9 +22,9 @@ const page = ({ params }: { params: { customerId: string } }) => {
         getCustomerName(params.customerId)
         .then((res:Result<string>) => {
             if(res.isSuccess)
-            setCustomerName(res.data!);
+                setCustomerName(res.data!);
             else
-            console.log(`${res.error!.code} | ${res.error!.type} | ${res.error!.description}`);
+                console.log(`${res.error!.code} | ${res.error!.type} | ${res.error!.description}`);
         })
         .catch((err:any) => {
             console.log(err);

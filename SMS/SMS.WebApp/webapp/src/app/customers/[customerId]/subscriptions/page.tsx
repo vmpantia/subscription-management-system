@@ -22,7 +22,7 @@ const page = ({ params }: { params: { customerId: string } }) => {
   // Component Configurations
   const breadCrumbsConfig : CustomBreadcrumbsPage[] = [
     { link: 'http://localhost:3000/', name: 'Home' },
-    { link: 'http://localhost:3000/customers', name: 'Customer' },
+    { link: 'http://localhost:3000/customers', name: 'Customers' },
     { link: `http://localhost:3000/customers/${params.customerId}`, name: customerName },
     { link: null, name: 'Subscriptions' },
   ] 
