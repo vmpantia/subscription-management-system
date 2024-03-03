@@ -14,6 +14,7 @@ const CustomTable = ({  name,
         columns,
         data, 
         enableSelectAll: enableRowSelection,
+        enableRowNumbers: true,
         enableRowSelection: enableRowSelection,
         enableTopToolbar: enableTopToolbar,
         enableBottomToolbar: enableBottomToolbar,
@@ -23,7 +24,7 @@ const CustomTable = ({  name,
         state: {
             isLoading: isLoading,
             columnPinning: {
-                left: ['mrt-row-select', 'subscrbiedProduct', 'customerName'],
+                left: ['mrt-row-select', 'mrt-row-numbers', 'subscribed-product', 'customer-name'],
             },
         },
         muiTableBodyProps:{

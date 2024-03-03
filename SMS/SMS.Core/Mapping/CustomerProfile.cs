@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SMS.Core.Models.ViewModels.Customer;
 using SMS.Domain.Models.Entities;
+using SMS.Domain.Models.Enums;
 
 namespace SMS.Core.Mapping
 {
@@ -13,7 +14,8 @@ namespace SMS.Core.Mapping
                 .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.Status.ToString()))
                 .ForMember(dst => dst.BillToCustomerId, opt => opt.MapFrom(src => src.BillToCustomer.Id))
                 .ForMember(dst => dst.BillToCustomerName, opt => opt.MapFrom(src => src.BillToCustomer == null ? null : $"{src.BillToCustomer.Name} ({src.BillToCustomer.ShortName})"))
-                .ForMember(dst => dst.BillToCustomerCurrency, opt => opt.MapFrom(src => src.BillToCustomer.Currency));
+                .ForMember(dst => dst.BillToCustomerCurrency, opt => opt.MapFrom(src => src.BillToCustomer.Currency))
+                .ForMember(dst => dst.NoOfSubscriptions, opt => opt.MapFrom(src => src.Subscriptions.Count(data => data.Status != SubscriptionStatus.Deleted)));
 
             CreateMap<Subscription, CustomerSubscriptionViewModel>()
                 .ForMember(dst => dst.Total, opt => opt.MapFrom(src => src.Quantity * src.UnitPrice))

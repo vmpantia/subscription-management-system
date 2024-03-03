@@ -1,10 +1,12 @@
 'use client'
 import { getAllCustomers } from '@/api/CustomerApis';
 import CustomBreadcrumbs from '@/components/CustomBreadcrumbs'
+import CustomCardCounts from '@/components/CustomCardCounts';
 import CustomTable from '@/components/tables/common/CustomTable';
 import { CustomerTableColumn } from '@/components/tables/common/CustomTableColumns';
 import { Result } from '@/interfaces/common/Result';
 import { CustomBreadcrumbsPage } from '@/interfaces/props/CustomBreadcrumbsProps'
+import { CustomCardCount } from '@/interfaces/props/CustomCardCountProps';
 import { CustomerViewModel } from '@/interfaces/viewmodels/customer/CustomerViewModel';
 import React, { useEffect, useState } from 'react'
 
@@ -19,8 +21,13 @@ const page = () => {
         { link: 'http://localhost:3000/', name: 'Home' },
         { link: null, name: 'Customers' },
     ] 
+    const cardsConfig : CustomCardCount[] = [
+        { title: 'No. of Customers', count: isCustomerLoading ? '-' : customers.length },
+        { title: 'No. of Active Status', count: isCustomerLoading ? '-' : customers.filter(sub => sub.status === 'Active').length },
+        { title: 'No. of Inactive Status', count: isCustomerLoading ? '-' : customers.filter(sub => sub.status === 'Inactive').length },
+    ]
     
-  // Functions
+    // Functions
     const fetchCustomers = () => {
         setIsCustomerLoading(true);
         getAllCustomers()
@@ -45,6 +52,7 @@ const page = () => {
     return (
         <>
             <CustomBreadcrumbs pages={breadCrumbsConfig} />
+            <CustomCardCounts cards={cardsConfig} isLoading={isCustomerLoading} />
             <CustomTable name='Customers'
                         data={customers}
                         columns={CustomerTableColumn}

@@ -1,5 +1,6 @@
 import { CustomerSubscriptionViewModel } from "@/interfaces/viewmodels/customer/CustomerSubscriptionViewModel";
 import { CustomerViewModel } from "@/interfaces/viewmodels/customer/CustomerViewModel";
+import { MailTwoTone, PhoneTwoTone } from "@mui/icons-material";
 import { MRT_ColumnDef } from "material-react-table";
 import moment from "moment";
 
@@ -27,7 +28,7 @@ const defaultColumn = (header:string, key:string, colWidth:number = 100, enableC
 
 const subscribedProductColumn = (colWidth:number = 100, enableColumnOrdering:boolean = true) => {
     return {
-        id: 'subscrbiedProduct',
+        id: 'subscribed-product',
         header: 'Subscribed Product',
         size: colWidth,
         accessorFn: (row:any) => row.name === row.productName ? 
@@ -161,7 +162,7 @@ const statusColumn = (header:string, key:string, colWidth:number = 100, enableCo
 
 const customerNameWithLinkColumn = (header:string, keyId:string, keyName:string, colWidth:number = 100, enableColumnOrdering:boolean = true) => {
     return {
-        id: 'customerName',
+        id: 'customer-name',
         header: header,
         size: colWidth,
         enableColumnOrdering: enableColumnOrdering,
@@ -175,8 +176,35 @@ const customerNameWithLinkColumn = (header:string, keyId:string, keyName:string,
                 </a>
             )
         },
-        sortingFn: (rowA:any, rowB:any) => defaultSorting(keyName, rowA, rowB),
-        filterFn: (row:any, id:any, filterValue:any) => defaultEqualContains(keyName, row, filterValue),
+    }
+}
+
+const customerContactColumn = (colWidth:number = 100, enableColumnOrdering:boolean = true) => {
+    return {
+        id: 'customer-contact',
+        header: 'Contact',
+        size: colWidth,
+        enableColumnOrdering: enableColumnOrdering,
+        accessorFn: (row:any) => {
+            let email = row.email;
+            let telephone = row.telephone;
+            return (
+                <>
+                    <div className="mb-1">
+                        <MailTwoTone style={{width:'20px', marginRight: '10px'}} />
+                        {email}
+                    </div>
+                    <div>
+                        <PhoneTwoTone style={{width:'20px', marginRight: '10px'}} />
+                        {telephone}
+                    </div>
+                </>
+            )
+        },
+        filterFn: (row:any, id:any, filterValue:any) => {
+            return row.original.email.toLowerCase().includes(filterValue.toLowerCase()) || 
+                   row.original.telephone.toLowerCase().includes(filterValue.toLowerCase());
+        }
     }
 }
 
@@ -205,8 +233,7 @@ export const CustomerBillingSubscriptionsTableColumn : MRT_ColumnDef<CustomerSub
 
 export const CustomerTableColumn : MRT_ColumnDef<CustomerViewModel>[] = [
     customerNameWithLinkColumn('Name', 'id', 'name', 250) as MRT_ColumnDef<CustomerViewModel>,
-    defaultColumn('Currency', 'currency', 250) as MRT_ColumnDef<CustomerViewModel>,
-    defaultColumn('Email', 'email', 250) as MRT_ColumnDef<CustomerViewModel>,
-    defaultColumn('Telephone', 'telephone', 250) as MRT_ColumnDef<CustomerViewModel>,
     statusColumn('Status', 'status', 250) as MRT_ColumnDef<CustomerViewModel>,
+    customerContactColumn() as MRT_ColumnDef<CustomerViewModel>,
+    defaultColumn('No. of Subscriptions', 'noOfSubscriptions', 250) as MRT_ColumnDef<CustomerViewModel>,
 ]

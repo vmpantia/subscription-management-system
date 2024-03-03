@@ -20,5 +20,7 @@
         public Guid? BillToCustomerId { get; set; }
         public string? BillToCustomerName { get; set; }
         public string? BillToCustomerCurrency { get; set; }
+
+        public int NoOfSubscriptions { get; set; }
     }
 }

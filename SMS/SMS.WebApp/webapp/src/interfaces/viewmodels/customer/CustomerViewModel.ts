@@ -17,4 +17,6 @@ export interface CustomerViewModel {
     billToCustomerId?:string | null,
     billToCustomerName?:string | null,
     billToCustomerCurrency?:string | null,
+
+    noOfSubscriptions:number
 }
