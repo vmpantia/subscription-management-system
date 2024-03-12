@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import CustomSidebar from "@/components/Sidebar/CustomSidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,8 +18,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-stone-50`}>
-        <div className='p-10'>
-          {children}
+        <CustomSidebar />
+        <div className="p-4 sm:ml-32">
+          <div className="p-2">
+            Global
+          </div>
+          <div className='p-7'>
+            {children}
+          </div>
         </div>
       </body>
     </html>
