@@ -1,4 +1,4 @@
-import { TeamOutlined } from '@ant-design/icons'
+import { ProductOutlined, TeamOutlined } from '@ant-design/icons'
 import React from 'react'
 import CustomSidebarButton from './CustomSidebarButton'
 
@@ -9,7 +9,7 @@ const CustomSidebar = () => {
                 <ul className="space-y-2 font-medium">
                     <li>
                         <CustomSidebarButton name="Customers" icon={<TeamOutlined />} />
-                        <CustomSidebarButton name="Subscriptions" icon={<TeamOutlined />} />
+                        <CustomSidebarButton name="Subscriptions" icon={<ProductOutlined />} />
                     </li> 
                 </ul>
             </div>
