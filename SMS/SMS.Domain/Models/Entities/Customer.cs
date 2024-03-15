@@ -39,5 +39,6 @@ namespace SMS.Domain.Models.Entities
         public virtual Customer? BillToCustomer { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<Subscription> Subscriptions { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

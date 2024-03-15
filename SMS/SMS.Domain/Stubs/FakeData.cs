@@ -94,5 +94,55 @@ namespace SMS.Domain.Stubs
                 .RuleFor(prop => prop.Status, faker => faker.PickRandom<SubscriptionStatus>())
                 .RuleFor(prop => prop.CreatedAt, faker => faker.Date.Past())
                 .RuleFor(prop => prop.CreatedBy, faker => faker.Internet.Email());
+
+        public static Faker<Order> FakerOrder(IEnumerable<Guid> customerIds) => 
+            new Faker<Order>()
+                .RuleFor(prop => prop.Id, faker => faker.Random.Guid())
+                .RuleFor(prop => prop.CustomerId, faker => faker.PickRandom(customerIds))
+                .RuleFor(prop => prop.OrderNumber, faker => faker.Company.Ein())
+                .RuleFor(prop => prop.Remarks, faker => faker.Company.CompanyName())
+                .RuleFor(prop => prop.NotificationStartAt, faker => faker.Date.Future())
+                .RuleFor(prop => prop.ConfirmationDueAt, faker => faker.Date.Future())
+                .RuleFor(prop => prop.ConfirmedAt, faker => faker.Date.Future())
+                .RuleFor(prop => prop.ConfirmedBy, faker => faker.Internet.Email())
+                .RuleFor(prop => prop.Status, faker => faker.PickRandom<OrderStatus>())
+                .RuleFor(prop => prop.CreatedAt, faker => faker.Date.Past())
+                .RuleFor(prop => prop.CreatedBy, faker => faker.Internet.Email());
+
+        public static Faker<OrderItem> FakerOrderItem(Order order, List<Subscription> subscriptions, List<Product> products)
+        {
+            var orderItem = new Faker<OrderItem>()
+                .RuleFor(prop => prop.Id, faker => faker.Random.Guid())
+                .RuleFor(prop => prop.OrderId, order.Id)
+                .RuleFor(prop => prop.Quantity, faker => faker.Random.Int())
+                .RuleFor(prop => prop.UnitPrice, faker => faker.Random.Decimal())
+                .RuleFor(prop => prop.AnniversaryDate, faker => faker.Date.Future())
+                .RuleFor(prop => prop.ServicePeriodStartAt, faker => faker.Date.Future())
+                .RuleFor(prop => prop.ServicePeriodEndAt, faker => faker.Date.Future())
+                .RuleFor(prop => prop.ActivationDate, faker => faker.Date.Future())
+                .RuleFor(prop => prop.IsAutomaticRenewal, faker => faker.Random.Bool())
+                .RuleFor(prop => prop.PaymentCycle, faker => faker.PickRandom(_paymentAndSubscriptionCycles))
+                .RuleFor(prop => prop.SubscriptionCycle, faker => faker.PickRandom(_paymentAndSubscriptionCycles))
+                .RuleFor(prop => prop.Status, faker => faker.PickRandom<CommonStatus>())
+                .RuleFor(prop => prop.CreatedAt, faker => faker.Date.Past())
+                .RuleFor(prop => prop.CreatedBy, faker => faker.Internet.Email());
+
+            var activeSubscriptions = subscriptions.Where(data => data.CustomerId == order.CustomerId &&
+                                                                  data.Status == SubscriptionStatus.Active);
+
+            if (activeSubscriptions.Any())
+            {
+                orderItem.RuleFor(prop => prop.SubscriptionId, faker => faker.PickRandom(activeSubscriptions).Id)
+                         .RuleFor(prop => prop.Type, OrderItemType.Renewal);
+            }
+            else
+            {
+                var activeProducts = products.Where(data => data.Status == CommonStatus.Active);
+                orderItem.RuleFor(prop => prop.ProductId, faker => faker.PickRandom(activeProducts).Id)
+                         .RuleFor(prop => prop.Type, OrderItemType.New);
+            }
+
+            return orderItem;
+        }
     }
 }

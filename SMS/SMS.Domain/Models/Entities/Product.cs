@@ -35,5 +35,6 @@ namespace SMS.Domain.Models.Entities
 
         public virtual ProductGroup ProductGroup { get; set; }
         public virtual ICollection<Subscription> Subscriptions { get; set; }
+        public virtual ICollection<OrderItem>? OrderItems { get; set; }
     }
 }
