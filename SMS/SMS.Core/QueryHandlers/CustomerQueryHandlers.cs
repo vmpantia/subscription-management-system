@@ -29,7 +29,7 @@ namespace SMS.Core.QueryHandlers
         {
             // Check if the customer exist in the database
             if(!await _customer.IsExistAsync(data => data.Id == request.CustomerId &&
-                                                     data.Status == CommonStatus.Active))
+                                                     data.Status != CommonStatus.Deleted))
                 return Result<IEnumerable<CustomerSubscriptionViewModel>>.Failure(CustomerErrors.NotFound(request.CustomerId));
 
             // Get customer subscriptions in the database
@@ -49,7 +49,7 @@ namespace SMS.Core.QueryHandlers
         {
             // Check if the customer exist in the database
             if (!await _customer.IsExistAsync(data => data.Id == request.CustomerId &&
-                                                      data.Status == CommonStatus.Active))
+                                                      data.Status != CommonStatus.Deleted))
                 return Result<IEnumerable<CustomerSubscriptionViewModel>>.Failure(CustomerErrors.NotFound(request.CustomerId));
 
             // Get customer billing subscriptions in the database

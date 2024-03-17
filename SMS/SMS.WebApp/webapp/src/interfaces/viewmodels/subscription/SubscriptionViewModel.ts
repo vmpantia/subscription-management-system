@@ -24,4 +24,7 @@ export interface SubscriptionViewModel {
     productManufacturer:string,
     productGroupName:string,
     productTypeName:string
+
+    pendingOrderId?:string,
+    pendingOrderNumber?:string,
 }

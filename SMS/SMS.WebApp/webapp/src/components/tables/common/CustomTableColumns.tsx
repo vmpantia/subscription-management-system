@@ -216,7 +216,8 @@ export const CustomerSubscriptionsTableColumn : MRT_ColumnDef<CustomerSubscripti
     defaultColumn('Subscription Cycle', 'subscriptionCycle') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
     defaultColumn('Payment Cycle', 'paymentCycle') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
     currencyColumn('Unit Price', 'unitPrice') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
-    currencyColumn('Total', 'total') as MRT_ColumnDef<CustomerSubscriptionViewModel>
+    currencyColumn('Total', 'total') as MRT_ColumnDef<CustomerSubscriptionViewModel>,
+    defaultColumn('Order', 'pendingOrderNumber') as MRT_ColumnDef<CustomerSubscriptionViewModel>
 ]
 
 export const CustomerBillingSubscriptionsTableColumn : MRT_ColumnDef<CustomerSubscriptionViewModel>[] = [
