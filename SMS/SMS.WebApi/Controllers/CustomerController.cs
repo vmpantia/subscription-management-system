@@ -18,7 +18,7 @@ namespace SMS.WebApi.Controllers
 
         [HttpGet("{customerId}")]
         public async Task<IActionResult> GetCustomer(Guid customerId) =>
-            await HandleRequestAsync<GetCustomerByIdQuery, string>(new GetCustomerByIdQuery(customerId));
+            await HandleRequestAsync<GetCustomerByIdQuery, CustomerViewModel>(new GetCustomerByIdQuery(customerId));
 
         [HttpGet("{customerId}/subscriptions")]
         public async Task<IActionResult> GetCustomerSubscriptions(Guid customerId) =>

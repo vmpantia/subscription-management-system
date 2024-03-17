@@ -69,7 +69,7 @@ namespace SMS.Core.QueryHandlers
         {
             // Check if the customer exist in the database
             var result = await _customer.GetCustomerAsync(data => data.Id == request.CustomerId &&
-                                                                  data.Status == CommonStatus.Active);
+                                                                  data.Status != CommonStatus.Deleted);
 
             // Check if customer or result is NULL
             if (result is null)  

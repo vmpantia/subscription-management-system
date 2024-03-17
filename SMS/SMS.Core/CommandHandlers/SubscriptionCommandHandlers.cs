@@ -34,7 +34,7 @@ namespace SMS.Core.CommandHandlers
                 return Result<string>.Failure(SubscriptionErrors.NullValue);
 
             // Check if the product id is exist on the database
-            if (await _product.IsExistAsync(data => data.Id == request.ProductId && data.Status == CommonStatus.Active))
+            if (await _product.IsExistAsync(data => data.Id == request.ProductId && data.Status != CommonStatus.Deleted))
                 return Result<string>.Failure(ProductErrors.NotFound(request.ProductId));
 
             // Set other information
@@ -62,7 +62,7 @@ namespace SMS.Core.CommandHandlers
                 return Result<string>.Failure(SubscriptionErrors.AlreadyDeleted);
 
             // Check if the product id is exist on the database
-            if (await _product.IsExistAsync(data => data.Id == request.ProductId && data.Status == CommonStatus.Active))
+            if (await _product.IsExistAsync(data => data.Id == request.ProductId && data.Status != CommonStatus.Deleted))
                 return Result<string>.Failure(ProductErrors.NotFound(request.ProductId));
 
             // Get updated subscription information

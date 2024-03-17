@@ -7,14 +7,14 @@ export const getAllCustomers = () =>
     AxiosApi.get<Result<CustomerViewModel[]>>('customers')
             .then(({data}) => data);
 
-export const getCustomerSubscriptions = (customerId:string) => 
+export const getCustomerSubscriptionsById = (customerId:string) => 
     AxiosApi.get<Result<CustomerSubscriptionViewModel[]>>(`customers/${customerId}/subscriptions`)
             .then(({data}) => data);
 
-export const getCustomerBillingSubscriptions = (customerId:string) => 
+export const getCustomerBillingSubscriptionsById = (customerId:string) => 
     AxiosApi.get<Result<CustomerSubscriptionViewModel[]>>(`customers/${customerId}/billing-subscriptions`)
             .then(({data}) => data);
 
-export const getCustomerName = (customerId:string) => 
-    AxiosApi.get<Result<string>>(`customers/${customerId}/name`)
+export const getCustomerById = (customerId:string) => 
+    AxiosApi.get<Result<CustomerViewModel>>(`customers/${customerId}`)
             .then(({data}) => data);

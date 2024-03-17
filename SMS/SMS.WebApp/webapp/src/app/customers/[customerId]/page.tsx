@@ -1,8 +1,9 @@
 'use client'
-import { getCustomerName } from '@/api/CustomerApis';
+import { getCustomerById } from '@/api/CustomerApis';
 import CustomBreadcrumbs from '@/components/CustomBreadcrumbs';
 import { Result } from '@/interfaces/common/Result';
 import { CustomBreadcrumbsPage } from '@/interfaces/props/CustomBreadcrumbsProps';
+import { CustomerViewModel } from '@/interfaces/viewmodels/customer/CustomerViewModel';
 import React, { useEffect, useState } from 'react'
 
 const page = ({ params }: { params: { customerId: string } }) => {
@@ -18,11 +19,11 @@ const page = ({ params }: { params: { customerId: string } }) => {
     ] 
     
     // Functions
-    const fetchCustomerName = () => {
-        getCustomerName(params.customerId)
-        .then((res:Result<string>) => {
+    const fetchCustomerById = () => {
+        getCustomerById(params.customerId)
+        .then((res:Result<CustomerViewModel>) => {
             if(res.isSuccess)
-                setCustomerName(res.data!);
+                setCustomerName(res.data!.name);
             else
                 console.log(`${res.error!.code} | ${res.error!.type} | ${res.error!.description}`);
         })
@@ -32,7 +33,7 @@ const page = ({ params }: { params: { customerId: string } }) => {
     }
 
     useEffect(() => {
-        fetchCustomerName();
+        fetchCustomerById();
     }, [])
     
     return (

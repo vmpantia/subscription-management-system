@@ -36,7 +36,7 @@ namespace SMS.Core.QueryHandlers
 
         public async Task<Result<IEnumerable<ProductLiteViewModel>>> Handle(GetAllProductLitesQuery request, CancellationToken cancellationToken)
         {
-            var result = await _product.GetProductsAsync(data => data.Status == CommonStatus.Active);
+            var result = await _product.GetProductsAsync(data => data.Status != CommonStatus.Deleted);
 
             if (result is null)
                 return Result<IEnumerable<ProductLiteViewModel>>.Failure(ProductErrors.NullValue);

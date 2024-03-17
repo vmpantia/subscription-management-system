@@ -1,5 +1,5 @@
 'use client'
-import { getCustomerBillingSubscriptions, getCustomerName, getCustomerSubscriptions } from '@/api/CustomerApis'
+import { getCustomerBillingSubscriptionsById, getCustomerById, getCustomerSubscriptionsById } from '@/api/CustomerApis'
 import CustomBreadcrumbs from '@/components/CustomBreadcrumbs'
 import CustomCardCounts from '@/components/CustomCardCounts'
 import CustomTable from '@/components/tables/common/CustomTable'
@@ -8,6 +8,7 @@ import { Result } from '@/interfaces/common/Result'
 import { CustomBreadcrumbsPage } from '@/interfaces/props/CustomBreadcrumbsProps'
 import { CustomCardCount } from '@/interfaces/props/CustomCardCountProps'
 import { CustomerSubscriptionViewModel } from '@/interfaces/viewmodels/customer/CustomerSubscriptionViewModel'
+import { CustomerViewModel } from '@/interfaces/viewmodels/customer/CustomerViewModel'
 import React, { useEffect, useState } from 'react'
 
 const page = ({ params }: { params: { customerId: string } }) => {
@@ -35,21 +36,21 @@ const page = ({ params }: { params: { customerId: string } }) => {
   ]
 
   // Functions
-  const fetchCustomerName = () => {
-    getCustomerName(params.customerId)
-      .then((res:Result<string>) => {
-        if(res.isSuccess)
-          setCustomerName(res.data!);
-        else
-          console.log(`${res.error!.code} | ${res.error!.type} | ${res.error!.description}`);
+    const fetchCustomerById = () => {
+      getCustomerById(params.customerId)
+      .then((res:Result<CustomerViewModel>) => {
+          if(res.isSuccess)
+              setCustomerName(res.data!.name);
+          else
+              console.log(`${res.error!.code} | ${res.error!.type} | ${res.error!.description}`);
       })
       .catch((err:any) => {
         console.log(err);
       });
   }
-  const fetchCustomerSubscriptions = () => {
+  const fetchCustomerSubscriptionsById = () => {
     setIsSubscriptionsLoading(true);
-    getCustomerSubscriptions(params.customerId)
+    getCustomerSubscriptionsById(params.customerId)
       .then((res:Result<CustomerSubscriptionViewModel[]>) => {
         if(res.isSuccess)
           setSubscriptions(res.data!);
@@ -63,9 +64,9 @@ const page = ({ params }: { params: { customerId: string } }) => {
         setIsSubscriptionsLoading(false);
       });
   }
-  const fetchCustomerBillingSubscriptions = () => {
+  const fetchCustomerBillingSubscriptionsById = () => {
     setIsBillingSubscriptionsLoading(true);
-    getCustomerBillingSubscriptions(params.customerId)
+    getCustomerBillingSubscriptionsById(params.customerId)
       .then((res:Result<CustomerSubscriptionViewModel[]>) => {
         if(res.isSuccess)
           setBillingSubscriptions(res.data!);
@@ -81,9 +82,9 @@ const page = ({ params }: { params: { customerId: string } }) => {
   }
   
   useEffect(() => {
-    fetchCustomerName();
-    fetchCustomerSubscriptions();
-    fetchCustomerBillingSubscriptions();
+    fetchCustomerById();
+    fetchCustomerSubscriptionsById();
+    fetchCustomerBillingSubscriptionsById();
   }, [])
 
   return (

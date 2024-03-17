@@ -35,7 +35,7 @@ namespace SMS.Core.CommandHandlers
                 return Result<string>.Failure(ProductErrors.NullValue);
 
             // Check if the product group id is exist on the database
-            if (await _productGroup.IsExistAsync(data => data.Id == request.ProductGroupId && data.Status == CommonStatus.Active))
+            if (await _productGroup.IsExistAsync(data => data.Id == request.ProductGroupId && data.Status != CommonStatus.Deleted))
                 return Result<string>.Failure(ProductGroupErrors.NotFound(request.ProductGroupId));
 
             // Set other information
@@ -63,7 +63,7 @@ namespace SMS.Core.CommandHandlers
                 return Result<string>.Failure(ProductErrors.AlreadyDeleted);
 
             // Check if the product group id is exist on the database
-            if (await _productGroup.IsExistAsync(data => data.Id == request.ProductGroupId && data.Status == CommonStatus.Active))
+            if (await _productGroup.IsExistAsync(data => data.Id == request.ProductGroupId && data.Status != CommonStatus.Deleted))
                 return Result<string>.Failure(ProductGroupErrors.NotFound(request.ProductGroupId));
 
             // Get updated product information
