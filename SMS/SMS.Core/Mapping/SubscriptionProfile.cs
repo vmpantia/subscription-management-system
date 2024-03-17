@@ -17,7 +17,9 @@ namespace SMS.Core.Mapping
                 .ForMember(dst => dst.ProductVendor, opt => opt.MapFrom(src => src.Product.Vendor))
                 .ForMember(dst => dst.ProductManufacturer, opt => opt.MapFrom(src => src.Product.Manufacturer))
                 .ForMember(dst => dst.ProductGroupName, opt => opt.MapFrom(src => src.Product.ProductGroup.Name))
-                .ForMember(dst => dst.ProductTypeName, opt => opt.MapFrom(src => src.Product.ProductGroup.ProductType.Name));
+                .ForMember(dst => dst.ProductTypeName, opt => opt.MapFrom(src => src.Product.ProductGroup.ProductType.Name))
+                .ForMember(dst => dst.PendingOrderId, opt => opt.MapFrom(src => src.OrderItems.FirstOrDefault().Order.Id))
+                .ForMember(dst => dst.PendingOrderNumber, opt => opt.MapFrom(src => src.OrderItems.FirstOrDefault().Order.OrderNumber));
             CreateMap<CreateSubscriptionCommand, Subscription>();
         }
     }

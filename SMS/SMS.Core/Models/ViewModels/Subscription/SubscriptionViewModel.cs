@@ -27,5 +27,8 @@
         public string ProductManufacturer { get; set; }
         public string ProductGroupName { get; set; }
         public string ProductTypeName { get; set; }
+
+        public Guid? PendingOrderId { get; set; }
+        public string? PendingOrderNumber { get; set; }
     }
 }

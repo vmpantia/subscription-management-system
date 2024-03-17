@@ -16,6 +16,10 @@ namespace SMS.WebApi.Controllers
         public async Task<IActionResult> GetAllCustomers() =>
             await HandleRequestAsync<GetAllCustomersQuery, IEnumerable<CustomerViewModel>>(new GetAllCustomersQuery());
 
+        [HttpGet("{customerId}")]
+        public async Task<IActionResult> GetCustomer(Guid customerId) =>
+            await HandleRequestAsync<GetCustomerByIdQuery, string>(new GetCustomerByIdQuery(customerId));
+
         [HttpGet("{customerId}/subscriptions")]
         public async Task<IActionResult> GetCustomerSubscriptions(Guid customerId) =>
             await HandleRequestAsync<GetCustomerSubscriptionsByIdQuery, IEnumerable<CustomerSubscriptionViewModel>>(new GetCustomerSubscriptionsByIdQuery(customerId));
@@ -23,9 +27,5 @@ namespace SMS.WebApi.Controllers
         [HttpGet("{customerId}/billing-subscriptions")]
         public async Task<IActionResult> GetCustomerBillingSubscriptions(Guid customerId) =>
             await HandleRequestAsync<GetCustomerBillingSubscriptionsByIdQuery, IEnumerable<CustomerSubscriptionViewModel>>(new GetCustomerBillingSubscriptionsByIdQuery(customerId));
-
-        [HttpGet("{customerId}/name")]
-        public async Task<IActionResult> GetCustomerName(Guid customerId) =>
-            await HandleRequestAsync<GetCustomerNameByIdQuery, string>(new GetCustomerNameByIdQuery(customerId));
     }
 }

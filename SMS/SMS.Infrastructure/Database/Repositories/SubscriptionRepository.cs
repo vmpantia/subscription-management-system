@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SMS.Domain.Contracts.Repositories;
 using SMS.Domain.Models.Entities;
+using SMS.Domain.Models.Enums;
 using SMS.Infrastructure.Database.DataAccess;
 using System.Linq.Expressions;
 
@@ -17,6 +18,9 @@ namespace SMS.Infrastructure.Database.Repositories
                     .Include(tbl => tbl.Product)
                         .ThenInclude(tbl => tbl.ProductGroup)
                             .ThenInclude(tbl => tbl.ProductType)
+                    .Include(tbl => tbl.OrderItems.Where(data => data.Order.Status == OrderStatus.Pending ||
+                                                                 data.Order.Status == OrderStatus.Confirmed))
+                        .ThenInclude(tbl => tbl.Order)
                     .AsSplitQuery()
                     .ToListAsync();
 

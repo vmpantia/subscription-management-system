@@ -26,6 +26,8 @@ namespace SMS.Core.Mapping
                 .ForMember(dst => dst.ProductManufacturer, opt => opt.MapFrom(src => src.Product.Manufacturer))
                 .ForMember(dst => dst.ProductGroupName, opt => opt.MapFrom(src => src.Product.ProductGroup.Name))
                 .ForMember(dst => dst.ProductTypeName, opt => opt.MapFrom(src => src.Product.ProductGroup.ProductType.Name))
+                .ForMember(dst => dst.PendingOrderId, opt => opt.MapFrom(src => src.OrderItems.FirstOrDefault().Order.Id))
+                .ForMember(dst => dst.PendingOrderNumber, opt => opt.MapFrom(src => src.OrderItems.FirstOrDefault().Order.OrderNumber))
                 .ForMember(dst => dst.CustomerId, opt => opt.MapFrom(src => src.Customer.Id))
                 .ForMember(dst => dst.CustomerName, opt => opt.MapFrom(src => $"{src.Customer.Name} ({src.Customer.ShortName})"))
                 .ForMember(dst => dst.CustomerCurrency, opt => opt.MapFrom(src => src.Customer.Currency))

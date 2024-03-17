@@ -12,7 +12,7 @@ namespace SMS.Core.QueryHandlers
     public class CustomerQueryHandlers : 
         IRequestHandler<GetCustomerSubscriptionsByIdQuery, Result<IEnumerable<CustomerSubscriptionViewModel>>>,
         IRequestHandler<GetCustomerBillingSubscriptionsByIdQuery, Result<IEnumerable<CustomerSubscriptionViewModel>>>,
-        IRequestHandler<GetCustomerNameByIdQuery, Result<string>>,
+        IRequestHandler<GetCustomerByIdQuery, Result<CustomerViewModel>>,
         IRequestHandler<GetAllCustomersQuery, Result<IEnumerable<CustomerViewModel>>>
     {
         private readonly ICustomerRepository _customer;
@@ -65,7 +65,7 @@ namespace SMS.Core.QueryHandlers
             return Result<IEnumerable<CustomerSubscriptionViewModel>>.Success(data);
         }
 
-        public async Task<Result<string>> Handle(GetCustomerNameByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<CustomerViewModel>> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
         {
             // Check if the customer exist in the database
             var result = await _customer.GetCustomerAsync(data => data.Id == request.CustomerId &&
@@ -73,9 +73,11 @@ namespace SMS.Core.QueryHandlers
 
             // Check if customer or result is NULL
             if (result is null)  
-                return Result<string>.Failure(CustomerErrors.NotFound(request.CustomerId));
+                return Result<CustomerViewModel>.Failure(CustomerErrors.NotFound(request.CustomerId));
 
-            return Result<string>.Success($"{result.Name} ({result.ShortName})");
+            // Convert result to view model
+            var data = _mapper.Map<CustomerViewModel>(result);
+            return Result<CustomerViewModel>.Success(data);
         }
 
         public async Task<Result<IEnumerable<CustomerViewModel>>> Handle(GetAllCustomersQuery request, CancellationToken cancellationToken)
